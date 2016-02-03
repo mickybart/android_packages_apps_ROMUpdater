@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Copyright (C) 2012 The CyanogenMod Project
+     Copyright (C) 2016 nAOSProm
 
      Licensed under the GNU GPLv2 license
 
@@ -10,5 +11,13 @@
     <!-- ROM Update Config Strings -->
     <string name="conf_update_server_url_def" translatable="false">https://localhost/api</string>
     <string name="conf_changelog_url" translatable="false">http://localhost/changelog.xml</string>
+
+    <!-- Can be enable if the conf_request_with_method support incremental download -->
     <bool name="conf_support_incremental">false</bool>
+
+    <!-- Permit to define which method to use to get the json file
+         cmrest : CyanogenMod Rest API
+         static : Direct file download
+    -->
+    <string name="conf_request_with_method" translatable="false">static</string>
 </resources>

@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2012 The CyanogenMod Project
+ * Copyright (C) 2016 nAOSProm
  *
  * * Licensed under the GNU GPLv2 license
  *
@@ -21,6 +22,7 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
@@ -41,7 +43,7 @@ import java.io.IOException;
 import java.net.URI;
 
 public class DownloadService extends IntentService
-        implements Response.Listener<JSONObject>, Response.ErrorListener {
+        implements Response.ErrorListener {
     private static final String TAG = DownloadService.class.getSimpleName();
 
     private static final String EXTRA_UPDATE_INFO = "update_info";
@@ -88,7 +90,19 @@ public class DownloadService extends IntentService
         Log.d(TAG, "Looking for incremental ota for source=" + sourceIncremental + ", target="
                 + mInfo.getIncremental());
 
-        UpdatesJsonObjectRequest request = buildRequest(sourceIncremental);
+        Request request = null;
+
+        String withMethod = getString(R.string.conf_request_with_method);
+        if (withMethod.equals("cmrest")) {
+            request = getIncrementalRequestWithCMrest(sourceIncremental);
+        } else {
+            Log.e(TAG, "No valid method to get incremental updates. please check conf_request_with_method");
+            return;
+        }
+
+        if (request == null)
+            return;
+
         ((UpdateApplication) getApplicationContext()).getQueue().add(request);
     }
 
@@ -101,28 +115,42 @@ public class DownloadService extends IntentService
         return getString(R.string.conf_update_server_url_def);
     }
 
-    private UpdatesJsonObjectRequest buildRequest(String sourceIncremental) {
-        URI requestUri = URI.create(getServerUri() + "/v1/build/get_delta");
+    private Request getIncrementalRequestWithCMrest(String sourceIncremental) {
         UpdatesJsonObjectRequest request;
+
+        URI requestUri = URI.create(getServerUri() + "/v1/build/get_delta");
 
         // Set request body
         try {
+            JSONObject body = new JSONObject();
+            body.put("source_incremental", sourceIncremental);
+            body.put("target_incremental", mInfo.getIncremental());
+
             request = new UpdatesJsonObjectRequest(requestUri.toASCIIString(),
-                    Utils.getUserAgentString(this), buildRequestBody(sourceIncremental),
-                    this, this);
+                    Utils.getUserAgentString(this), body,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            VolleyLog.v("Response:%n %s", response);
+                            UpdateInfo incrementalUpdateInfo = null;
+                    
+                            incrementalUpdateInfo = jsonToInfo(response);
+                    
+                            if (incrementalUpdateInfo == null) {
+                                downloadFullZip();
+                            } else {
+                                downloadIncremental(incrementalUpdateInfo);
+                            }
+                        }
+                    },
+                    this);
+
         } catch (JSONException e) {
             Log.e(TAG, "JSONException", e);
             return null;
         }
 
         return request;
-    }
-
-    private JSONObject buildRequestBody(String sourceIncremental) throws JSONException {
-        JSONObject body = new JSONObject();
-        body.put("source_incremental", sourceIncremental);
-        body.put("target_incremental", mInfo.getIncremental());
-        return body;
     }
 
     private UpdateInfo jsonToInfo(JSONObject obj) {
@@ -226,21 +254,5 @@ public class DownloadService extends IntentService
     @Override
     public void onErrorResponse(VolleyError error) {
         VolleyLog.e("Error: ", error.getMessage());
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-        VolleyLog.v("Response:%n %s", response);
-        UpdateInfo incrementalUpdateInfo = null;
-
-        if(mSupportIncremental) {
-            incrementalUpdateInfo = jsonToInfo(response);
-        }
-
-        if (incrementalUpdateInfo == null) {
-            downloadFullZip();
-        } else {
-            downloadIncremental(incrementalUpdateInfo);
-        }
     }
 }

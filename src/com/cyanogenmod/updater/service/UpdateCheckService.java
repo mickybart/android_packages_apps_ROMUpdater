@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2012 The CyanogenMod Project
+ * Copyright (C) 2016 nAOSProm
  *
  * * Licensed under the GNU GPLv2 license
  *
@@ -23,6 +24,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
@@ -30,6 +32,7 @@ import com.android.volley.VolleyLog;
 import com.cyanogenmod.updater.R;
 import com.cyanogenmod.updater.UpdateApplication;
 import com.cyanogenmod.updater.requests.UpdatesJsonObjectRequest;
+import com.cyanogenmod.updater.requests.GenericStringRequest;
 import com.cyanogenmod.updater.UpdatesSettings;
 import com.cyanogenmod.updater.misc.Constants;
 import com.cyanogenmod.updater.misc.State;
@@ -48,7 +51,7 @@ import java.util.Date;
 import java.util.LinkedList;
 
 public class UpdateCheckService extends IntentService
-        implements Response.ErrorListener, Response.Listener<JSONObject> {
+        implements Response.ErrorListener {
 
     private static final String TAG = "UpdateCheckService";
 
@@ -213,48 +216,93 @@ public class UpdateCheckService extends IntentService
     }
 
     private void getAvailableUpdates() {
-        // Get the type of update we should check for
-        int updateType = Utils.getUpdateType();
+        Request request = null;
 
-        // Get the actual ROM Update Server URL
-        URI updateServerUri = getServerURI();
-        UpdatesJsonObjectRequest request;
-        try {
-            request = new UpdatesJsonObjectRequest(updateServerUri.toASCIIString(),
-                    Utils.getUserAgentString(this), buildUpdateRequest(updateType), this, this);
-            // Improve request error tolerance
-            request.setRetryPolicy(new DefaultRetryPolicy(UPDATE_REQUEST_TIMEOUT,
-                        UPDATE_REQUEST_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            // Set the tag for the request, reuse logging tag
-            request.setTag(TAG);
-        } catch (JSONException e) {
-            Log.e(TAG, "Could not build request", e);
+        String withMethod = getString(R.string.conf_request_with_method);
+        if (withMethod.equals("cmrest")) {
+            request = getRequestWithCMrest();
+        } else if (withMethod.equals("static")) {
+            request = getRequestWithStaticUri();
+        } else {
+            Log.e(TAG, "No valid method to get updates. please check conf_request_with_method");
             return;
         }
+
+        if(request == null)
+             return;
+
+        // Improve request error tolerance
+        request.setRetryPolicy(new DefaultRetryPolicy(UPDATE_REQUEST_TIMEOUT,
+                    UPDATE_REQUEST_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        // Set the tag for the request, reuse logging tag
+        request.setTag(TAG);
 
         ((UpdateApplication) getApplicationContext()).getQueue().add(request);
     }
 
-    private JSONObject buildUpdateRequest(int updateType) throws JSONException {
-        JSONArray channels = new JSONArray();
+    private Request getRequestWithStaticUri() {
+        // Get the actual ROM Update Server URL
+        URI updateServerUri = getServerURI();
 
-        switch(updateType) {
-            case Constants.UPDATE_TYPE_SNAPSHOT:
-                channels.put("snapshot");
-                break;
-            case Constants.UPDATE_TYPE_NIGHTLY:
-            default:
-                channels.put("nightly");
-                break;
+        // Create Request
+        GenericStringRequest request = new GenericStringRequest(Request.Method.GET, updateServerUri.toASCIIString(),
+                Utils.getUserAgentString(this),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String object) {
+                        processUpdates(object);
+                    }
+                },
+                this);
+
+        return request;
+    }
+
+    private Request getRequestWithCMrest() {
+        JSONObject requestJSON = null;
+
+        // Get the type of update we should check for
+        int updateType = Utils.getUpdateType();
+
+        // Create JSON
+        try {
+            JSONArray channels = new JSONArray();
+    
+            switch(updateType) {
+                case Constants.UPDATE_TYPE_SNAPSHOT:
+                    channels.put("snapshot");
+                    break;
+                case Constants.UPDATE_TYPE_NIGHTLY:
+                default:
+                    channels.put("nightly");
+                    break;
+            }
+            JSONObject params = new JSONObject();
+            params.put("device", TESTING_DOWNLOAD ? "cmtestdevice" : Utils.getDeviceType());
+            params.put("channels", channels);
+            params.put("source_incremental", Utils.getIncremental());
+    
+            requestJSON = new JSONObject();
+            requestJSON.put("method", "get_all_builds");
+            requestJSON.put("params", params);
+        } catch (JSONException e) {
+            return null;
         }
-        JSONObject params = new JSONObject();
-        params.put("device", TESTING_DOWNLOAD ? "cmtestdevice" : Utils.getDeviceType());
-        params.put("channels", channels);
-        params.put("source_incremental", Utils.getIncremental());
 
-        JSONObject request = new JSONObject();
-        request.put("method", "get_all_builds");
-        request.put("params", params);
+        // Get the actual ROM Update Server URL
+        URI updateServerUri = getServerURI();
+
+        // Create Request
+        UpdatesJsonObjectRequest request;
+        request = new UpdatesJsonObjectRequest(updateServerUri.toASCIIString(), 
+                Utils.getUserAgentString(this), requestJSON,
+            new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject jsonObject) {
+                    processUpdates(jsonObject.toString());
+                }
+            },
+            this);
 
         return request;
     }
@@ -312,12 +360,11 @@ public class UpdateCheckService extends IntentService
         sendBroadcast(intent);
     }
 
-    @Override
-    public void onResponse(JSONObject jsonObject) {
+    private void processUpdates(String response) {
         int updateType = Utils.getUpdateType();
 
         LinkedList<UpdateInfo> lastUpdates = State.loadState(this);
-        LinkedList<UpdateInfo> updates = parseJSON(jsonObject.toString(), updateType);
+        LinkedList<UpdateInfo> updates = parseJSON(response, updateType);
 
         int newUpdates = 0, realUpdates = 0;
         for (UpdateInfo ui : updates) {
