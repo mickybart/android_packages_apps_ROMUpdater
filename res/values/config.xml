@@ -7,7 +7,7 @@
      or at https://www.gnu.org/licenses/gpl-2.0.txt
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- CMUpdate Config Strings -->
-    <string name="conf_update_server_url_def" translatable="false">https://download.cyanogenmod.org/api</string>
+    <!-- ROM Update Config Strings -->
+    <string name="conf_update_server_url_def" translatable="false">https://localhost/api</string>
     <string name="conf_changelog_url" translatable="false">http://localhost/changelog.xml</string>
 </resources>
