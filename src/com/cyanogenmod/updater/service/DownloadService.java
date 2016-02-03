@@ -48,6 +48,7 @@ public class DownloadService extends IntentService
 
     private SharedPreferences mPrefs;
     private UpdateInfo mInfo = null;
+    private boolean mSupportIncremental;
 
     public static void start(Context context, UpdateInfo ui) {
         Intent intent = new Intent(context, DownloadService.class);
@@ -57,6 +58,8 @@ public class DownloadService extends IntentService
 
     public DownloadService() {
         super(TAG);
+
+        mSupportIncremental = getResources().getBoolean(R.bool.conf_support_incremental);
     }
 
     @Override
@@ -69,9 +72,13 @@ public class DownloadService extends IntentService
             return;
         }
 
-        try {
-            getIncremental();
-        } catch (IOException e) {
+        if(mSupportIncremental) {
+            try {
+                getIncremental();
+            } catch (IOException e) {
+                downloadFullZip();
+            }
+        } else {
             downloadFullZip();
         }
     }
@@ -224,8 +231,12 @@ public class DownloadService extends IntentService
     @Override
     public void onResponse(JSONObject response) {
         VolleyLog.v("Response:%n %s", response);
+        UpdateInfo incrementalUpdateInfo = null;
 
-        UpdateInfo incrementalUpdateInfo = jsonToInfo(response);
+        if(mSupportIncremental) {
+            incrementalUpdateInfo = jsonToInfo(response);
+        }
+
         if (incrementalUpdateInfo == null) {
             downloadFullZip();
         } else {

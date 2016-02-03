@@ -10,4 +10,5 @@
     <!-- ROM Update Config Strings -->
     <string name="conf_update_server_url_def" translatable="false">https://localhost/api</string>
     <string name="conf_changelog_url" translatable="false">http://localhost/changelog.xml</string>
+    <bool name="conf_support_incremental">false</bool>
 </resources>
