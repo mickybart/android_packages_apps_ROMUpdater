@@ -49,10 +49,9 @@ import com.cyanogenmod.updater.misc.State;
 import com.cyanogenmod.updater.misc.UpdateInfo;
 import com.cyanogenmod.updater.receiver.DownloadReceiver;
 import com.cyanogenmod.updater.service.UpdateCheckService;
+import com.cyanogenmod.updater.utils.ScreenType;
 import com.cyanogenmod.updater.utils.UpdateFilter;
 import com.cyanogenmod.updater.utils.Utils;
-
-import org.cyanogenmod.internal.util.ScreenType;
 
 import java.io.File;
 import java.io.IOException;
