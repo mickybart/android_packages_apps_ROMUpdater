@@ -66,7 +66,7 @@ public class Utils {
         if (version != null)
             return version;
 
-        version = SystemProperties.get("ro.build.version.ota", null);
+        version = SystemProperties.get("ro.build.version.updater", null);
         if (version != null)
             return version;
 
