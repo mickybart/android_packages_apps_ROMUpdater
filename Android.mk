@@ -23,5 +23,6 @@ LOCAL_PACKAGE_NAME := ROMUpdater
 LOCAL_PROGUARD_FLAGS := -include $(LOCAL_PATH)/proguard.flags
 
 LOCAL_PRIVILEGED_MODULE := true
+LOCAL_CERTIFICATE := platform
 
 include $(BUILD_PACKAGE)
