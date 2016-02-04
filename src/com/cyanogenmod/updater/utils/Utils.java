@@ -62,21 +62,21 @@ public class Utils {
     public static String getInstalledVersion() {
         String version;
 
-        version = SystemProperties.get("ro.cm.version", null);
-        if (version != null)
+        version = SystemProperties.get("ro.cm.version", "");
+        if (!version.isEmpty())
             return version;
 
-        version = SystemProperties.get("ro.build.version.updater", null);
-        if (version != null)
+        version = SystemProperties.get("ro.build.version.updater", "");
+        if (!version.isEmpty())
             return version;
 
         return "";
     }
 
     public static String getInstalledZipFile() {
-        String version = SystemProperties.get("ro.cm.version", null);
+        String version = SystemProperties.get("ro.cm.version", "");
 
-        if (version != null) {
+        if (!version.isEmpty()) {
             // Should be a CyanogenMod version
             return "cm-" + version + ".zip";
         }
@@ -240,12 +240,12 @@ public class Utils {
     public static int getUpdateType() {
         int updateType = Constants.UPDATE_TYPE_NIGHTLY;
         try {
-            String releaseType = SystemProperties.get("ro.cm.releasetype", null);
-            if (releaseType == null)
-                releaseType = SystemProperties.get("ro.build.version.channel", null);
+            String releaseType = SystemProperties.get("ro.cm.releasetype", "");
+            if (releaseType.isEmpty())
+                releaseType = SystemProperties.get("ro.build.version.channel", "");
 
             // Treat anything that is not SNAPSHOT as NIGHTLY
-            if (releaseType != null) {
+            if (!releaseType.isEmpty()) {
                 if (TextUtils.equals(releaseType,
                         Constants.RELEASETYPE_SNAPSHOT)) {
                     updateType = Constants.UPDATE_TYPE_SNAPSHOT;
