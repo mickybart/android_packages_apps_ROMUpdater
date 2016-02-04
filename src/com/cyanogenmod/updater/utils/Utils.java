@@ -215,7 +215,7 @@ public class Utils {
         Process p = Runtime.getRuntime().exec("sh");
         OutputStream os = p.getOutputStream();
         os.write("mkdir -p /cache/recovery/\n".getBytes());
-        os.write("touch /cache/recovery/openrecoveryscript".getBytes());
+        os.write("> /cache/recovery/openrecoveryscript\n".getBytes());
 
         if (needBackup) {
            os.write(("echo 'backup SDB before-" + updateFileName + "'  >> /cache/recovery/openrecoveryscript\n").getBytes());
@@ -231,7 +231,7 @@ public class Utils {
          * SuperSU, GApps ...
          */
         if (customRecovery != null && !customRecovery.isEmpty()) {
-            os.write(("cat << EOF >> /cache/recovery/openrecoveryscript\n" + customRecovery + "\nEOF\n").getBytes());
+            os.write(("echo '" + customRecovery + "' >> /cache/recovery/openrecoveryscript\n").getBytes());
         }
 
         os.flush();

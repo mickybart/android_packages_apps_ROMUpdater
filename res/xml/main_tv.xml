@@ -39,7 +39,8 @@
          android:title="@string/custom_recovery_title"
          android:summary="@string/custom_recovery_summary"
          android:singleLine="false"
-         android:minLines="5"
+         android:minLines="3"
+         android:gravity="top"
          android:defaultValue=""
          android:persistent="true" />
 
