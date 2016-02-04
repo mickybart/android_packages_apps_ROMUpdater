@@ -135,13 +135,45 @@ public class Utils {
     }
 
     public static void triggerUpdate(Context context, String updateFileName) throws IOException {
+        /* 
+         * Should perform the following steps
+         * 1.- check recovery functionality
+         * 2.- prepare recovery script or command line
+         * 3.- reboot recovery
+         */
+
+        /* OpenRecoveryScript */
+        boolean isUseOpenRecoveryScript = context.getResources().getBoolean(R.bool.conf_use_openrecoveryscript);
+
+        /* Define update path */
+
+        // Add the update folder/file name
+        String primaryStoragePath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        // If data media rewrite the path to bypass the sd card fuse layer and trigger uncrypt
+        String directPath = Environment.maybeTranslateEmulatedPathToInternal(
+                new File(primaryStoragePath)).getAbsolutePath();
+        String updatePath = Environment.isExternalStorageEmulated() ? directPath :
+                primaryStoragePath;
+        String zipPath = updatePath + "/" + Constants.UPDATES_FOLDER + "/" + updateFileName;
+
+        if (isUseOpenRecoveryScript) {
+            updateWithOpenRecoveryScript(zipPath, updateFileName);
+        } else {
+            updateByDefault(zipPath);
+        }
+
+        // Trigger the reboot
+        PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        powerManager.reboot("recovery");
+    }
+
+    private static void updateByDefault(String zipPath) throws IOException {
         /*
          * Should perform the following steps.
          * 1.- mkdir -p /cache/recovery
          * 2.- echo 'boot-recovery' > /cache/recovery/command
          * 3.- if(mBackup) echo '--nandroid'  >> /cache/recovery/command
          * 4.- echo '--update_package=SDCARD:update.zip' >> /cache/recovery/command
-         * 5.- reboot recovery
          */
 
         // Set the 'boot recovery' command
@@ -157,21 +189,43 @@ public class Utils {
            }
            */
 
-        // Add the update folder/file name
-        String primaryStoragePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-        // If data media rewrite the path to bypass the sd card fuse layer and trigger uncrypt
-        String directPath = Environment.maybeTranslateEmulatedPathToInternal(
-                new File(primaryStoragePath)).getAbsolutePath();
-        String updatePath = Environment.isExternalStorageEmulated() ? directPath :
-                primaryStoragePath;
-        String cmd = "echo '--update_package=" + updatePath + "/" + Constants.UPDATES_FOLDER + "/"
-                + updateFileName + "' >> /cache/recovery/command\n";
+        String cmd = "echo '--update_package=" + zipPath + "' >> /cache/recovery/command\n";
         os.write(cmd.getBytes());
         os.flush();
+    }
 
-        // Trigger the reboot
-        PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        powerManager.reboot("recovery");
+    private static void updateWithOpenRecoveryScript(String zipPath, String updateFileName) throws IOException {
+        /*
+         * Should perform the following steps.
+         * 1.- mkdir -p /cache/recovery
+         * 2.- if(mBackup) backup
+         * 3.- install zip
+         * 4.- wipe cache and dalvik
+         * 5.- if(custom instruction) perform custom instructions
+         */
+
+        // Set the 'boot recovery' command
+        Process p = Runtime.getRuntime().exec("sh");
+        OutputStream os = p.getOutputStream();
+        os.write("mkdir -p /cache/recovery/\n".getBytes());
+        os.write("touch /cache/recovery/openrecoveryscript".getBytes());
+
+        // See if backups are enabled and add the nandroid flag
+        /* TODO: add this back once we have a way of doing backups that is not recovery specific
+           if (mPrefs.getBoolean(Constants.BACKUP_PREF, true)) {
+           os.write(("echo 'backup SDB before-" + updateFileName + "'  >> /cache/recovery/openrecoveryscript\n").getBytes());
+           }
+           */
+
+        os.write(("echo 'install " + zipPath + "' >> /cache/recovery/openrecoveryscript\n").getBytes());
+
+        os.write(("echo 'wipe cache' >> /cache/recovery/openrecoveryscript\n").getBytes());
+        os.write(("echo 'wipe dalvik' >> /cache/recovery/openrecoveryscript\n").getBytes());
+
+        /* TODO: support custom commands to flash for example :
+         * SuperSU, GApps ...
+         */
+        os.flush();
     }
 
     public static int getUpdateType() {

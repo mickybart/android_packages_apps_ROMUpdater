@@ -20,4 +20,7 @@
          static : Direct file download
     -->
     <string name="conf_request_with_method" translatable="false">static</string>
+
+    <!-- Set to true if your recovery used OpenRecoveryScript (like TWRP) -->
+    <bool name="conf_use_openrecoveryscript">true</bool>
 </resources>
