@@ -39,15 +39,15 @@ public class UpdatesSettingsTv extends UpdatesSettings {
         long lastCheck = prefs.getLong(Constants.LAST_UPDATE_CHECK_PREF, 0);
         String date = DateFormat.getLongDateFormat(this).format(lastCheck);
         String time = DateFormat.getTimeFormat(this).format(lastCheck);
-        String cmReleaseType = Constants.CM_RELEASETYPE_NIGHTLY;
+        String releaseType = Constants.RELEASETYPE_NIGHTLY;
         int updateType = Utils.getUpdateType();
         if (updateType == Constants.UPDATE_TYPE_SNAPSHOT) {
-            cmReleaseType = Constants.CM_RELEASETYPE_SNAPSHOT;
+            releaseType = Constants.RELEASETYPE_SNAPSHOT;
         }
         String sysinfomessage = getString(R.string.sysinfo_device) + " " + Utils.getDeviceType() +
                 "                            " + getString(R.string.sysinfo_running) + " "
                 + Utils.getInstalledVersion() + "\n" + getString(R.string.sysinfo_update_channel)
-                + " " + cmReleaseType + "    " + getString(R.string.sysinfo_last_check) + " "
+                /* + " " + releaseType */ + "    " + getString(R.string.sysinfo_last_check) + " "
                 + date + " " + time;
         return sysinfomessage;
     }

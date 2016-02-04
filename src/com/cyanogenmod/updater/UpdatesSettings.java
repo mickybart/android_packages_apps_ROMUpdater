@@ -616,7 +616,7 @@ public class UpdatesSettings extends PreferenceActivity implements
         mUpdatesList.removeAll();
 
         // Convert the installed version name to the associated filename
-        String installedZip = "cm-" + Utils.getInstalledVersion() + ".zip";
+        String installedZip = Utils.getInstalledZipFile();
 
         // Determine installed incremental
         String installedIncremental = Utils.getIncremental();
@@ -823,15 +823,15 @@ public class UpdatesSettings extends PreferenceActivity implements
         String date = DateFormat.getLongDateFormat(this).format(lastCheck);
         String time = DateFormat.getTimeFormat(this).format(lastCheck);
 
-        String cmReleaseType = Constants.CM_RELEASETYPE_NIGHTLY;
+        String releaseType = Constants.RELEASETYPE_NIGHTLY;
         int updateType = Utils.getUpdateType();
         if (updateType == Constants.UPDATE_TYPE_SNAPSHOT) {
-            cmReleaseType = Constants.CM_RELEASETYPE_SNAPSHOT;
+            releaseType = Constants.RELEASETYPE_SNAPSHOT;
         }
 
         String message = getString(R.string.sysinfo_device) + " " + Utils.getDeviceType() + "\n\n"
                 + getString(R.string.sysinfo_running) + " " + Utils.getInstalledVersion() + "\n\n"
-                + getString(R.string.sysinfo_update_channel) + " " + cmReleaseType + "\n\n"
+                /* + getString(R.string.sysinfo_update_channel) + " " + releaseType + "\n\n" */
                 + getString(R.string.sysinfo_last_check) + " " + date + " " + time;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this)

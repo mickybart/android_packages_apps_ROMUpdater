@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2013 The CyanogenMod Project
+ * Copyright (C) 2016 nAOSProm
  *
  * * Licensed under the GNU GPLv2 license
  *
@@ -55,11 +56,32 @@ public class Utils {
     }
 
     public static String getDeviceType() {
-        return SystemProperties.get("ro.cm.device");
+        return SystemProperties.get("ro.product.device");
     }
 
     public static String getInstalledVersion() {
-        return SystemProperties.get("ro.cm.version");
+        String version;
+
+        version = SystemProperties.get("ro.cm.version", null);
+        if (version != null)
+            return version;
+
+        version = SystemProperties.get("ro.build.version.ota", null);
+        if (version != null)
+            return version;
+
+        return "";
+    }
+
+    public static String getInstalledZipFile() {
+        String version = SystemProperties.get("ro.cm.version", null);
+
+        if (version != null) {
+            // Should be a CyanogenMod version
+            return "cm-" + version + ".zip";
+        }
+
+        return SystemProperties.get("ro.build.version.updater", "unknown") + ".zip";
     }
 
     public static int getInstalledApiLevel() {
@@ -155,13 +177,14 @@ public class Utils {
     public static int getUpdateType() {
         int updateType = Constants.UPDATE_TYPE_NIGHTLY;
         try {
-            String cmReleaseType = SystemProperties.get(
-                    Constants.PROPERTY_CM_RELEASETYPE);
+            String releaseType = SystemProperties.get("ro.cm.releasetype", null);
+            if (releaseType == null)
+                releaseType = SystemProperties.get("ro.build.version.channel", null);
 
             // Treat anything that is not SNAPSHOT as NIGHTLY
-            if (!cmReleaseType.isEmpty()) {
-                if (TextUtils.equals(cmReleaseType,
-                        Constants.CM_RELEASETYPE_SNAPSHOT)) {
+            if (releaseType != null) {
+                if (TextUtils.equals(releaseType,
+                        Constants.RELEASETYPE_SNAPSHOT)) {
                     updateType = Constants.UPDATE_TYPE_SNAPSHOT;
                 }
             }
