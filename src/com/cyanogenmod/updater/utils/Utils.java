@@ -170,8 +170,9 @@ public class Utils {
         }
 
         // Trigger the reboot
-        // PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        // powerManager.reboot("recovery");
+        SystemProperties.set(Constants.REBOOT_FLASH_PROPERTY, "true");
+        PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        powerManager.reboot("recovery");
     }
 
     private static void updateByDefault(String zipPath, boolean needBackup) throws IOException {

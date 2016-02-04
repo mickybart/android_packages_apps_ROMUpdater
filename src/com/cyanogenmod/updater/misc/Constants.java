@@ -41,4 +41,7 @@ public class Constants {
     // releasetype values
     public static final String RELEASETYPE_SNAPSHOT = "SNAPSHOT";
     public static final String RELEASETYPE_NIGHTLY = "NIGHTLY";
+
+    // Indicates whether we are rebooting to flash
+    public static final String REBOOT_FLASH_PROPERTY = "sys.reboot.flash.requested";
 }
