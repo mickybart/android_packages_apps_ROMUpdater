@@ -361,6 +361,8 @@ public class UpdateCheckService extends IntentService
     }
 
     private void processUpdates(String response) {
+        Log.d(TAG, "Update JSON content: " + response);
+
         int updateType = Utils.getUpdateType();
 
         LinkedList<UpdateInfo> lastUpdates = State.loadState(this);
