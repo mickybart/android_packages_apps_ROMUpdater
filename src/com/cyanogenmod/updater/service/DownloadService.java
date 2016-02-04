@@ -50,7 +50,6 @@ public class DownloadService extends IntentService
 
     private SharedPreferences mPrefs;
     private UpdateInfo mInfo = null;
-    private boolean mSupportIncremental;
 
     public static void start(Context context, UpdateInfo ui) {
         Intent intent = new Intent(context, DownloadService.class);
@@ -60,8 +59,6 @@ public class DownloadService extends IntentService
 
     public DownloadService() {
         super(TAG);
-
-        mSupportIncremental = getResources().getBoolean(R.bool.conf_support_incremental);
     }
 
     @Override
@@ -74,7 +71,7 @@ public class DownloadService extends IntentService
             return;
         }
 
-        if(mSupportIncremental) {
+        if(getResources().getBoolean(R.bool.conf_support_incremental)) {
             try {
                 getIncremental();
             } catch (IOException e) {
