@@ -107,7 +107,7 @@ public class DownloadService extends IntentService
     }
 
     private String getServerUri() {
-        String propertyUri = SystemProperties.get("rom.updater.uri");
+        String propertyUri = SystemProperties.get("persist.rom.updater.uri");
         if (!TextUtils.isEmpty(propertyUri)) {
             return propertyUri;
         }

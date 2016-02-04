@@ -206,7 +206,7 @@ public class UpdateCheckService extends IntentService
     }
 
     private URI getServerURI() {
-        String propertyUpdateUri = SystemProperties.get("rom.updater.uri");
+        String propertyUpdateUri = SystemProperties.get("persist.rom.updater.uri");
         if (!TextUtils.isEmpty(propertyUpdateUri)) {
             return URI.create(propertyUpdateUri);
         }
