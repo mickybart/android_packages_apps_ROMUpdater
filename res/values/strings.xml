@@ -45,6 +45,10 @@
     <string name="backup_title">Backup before update</string>
     <string name="backup_summary">Backup System, Boot and Data</string>
 
+    <!-- Custom Recovery -->
+    <string name="custom_recovery_title">Post update</string>
+    <string name="custom_recovery_summary">Flash GApps, SuperSU, Xposed, etc</string>
+
     <!-- Update checking -->
     <string name="checking_for_updates">Checking for updates</string>
     <string name="no_updates_found">No new updates found</string>

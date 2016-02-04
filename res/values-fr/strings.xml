@@ -36,6 +36,8 @@
   <string name="check_monthly">Mensuelle</string>
   <string name="backup_title">Sauvegarde avant la mise à jour</string>
   <string name="backup_summary">Sauvegarde System, Boot et Data</string>
+  <string name="custom_recovery_title">Après la mise à jour</string>
+  <string name="custom_recovery_summary">Flash GApps, SuperSU, Xposed, etc</string>
   <string name="checking_for_updates">Recherche de mises à jour</string>
   <string name="no_updates_found">Aucune nouvelle mise à jour disponible</string>
   <string name="update_check_failed">La vérification a échoué. Vérifiez votre connexion internet et réessayez ultérieurement.</string>

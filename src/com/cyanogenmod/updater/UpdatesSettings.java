@@ -145,6 +145,7 @@ public class UpdatesSettings extends PreferenceActivity implements
         mUpdatesList = (PreferenceCategory) findPreference(UPDATES_CATEGORY);
         mUpdateCheck = (ListPreference) findPreference(Constants.UPDATE_CHECK_PREF);
         mBackup = (SwitchPreference) findPreference(Constants.BACKUP_PREF);
+        Preference customRecovery = (Preference) findPreference(Constants.CUSTOM_RECOVERY_PREF);
 
         // Load the stored preference data
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -154,11 +155,14 @@ public class UpdatesSettings extends PreferenceActivity implements
             mUpdateCheck.setSummary(mapCheckValue(check));
             mUpdateCheck.setOnPreferenceChangeListener(this);
         }
+        
+        boolean isOpenRecoveryScript = getResources().getBoolean(R.bool.conf_use_openrecoveryscript);
 
-        if(mBackup != null) {
-            if (!getResources().getBoolean(R.bool.conf_use_openrecoveryscript)) {
-                mBackup.setEnabled(false);
-            }
+        if (mBackup != null) {
+            mBackup.setEnabled(isOpenRecoveryScript);
+        }
+        if (customRecovery != null) {
+            customRecovery.setEnabled(isOpenRecoveryScript);
         }
 
         // Force a refresh if UPDATE_TYPE_PREF does not match release type

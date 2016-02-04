@@ -156,21 +156,22 @@ public class Utils {
                 primaryStoragePath;
         String zipPath = updatePath + "/" + Constants.UPDATES_FOLDER + "/" + updateFileName;
 
-        /* Backup ? */
+        /* Backup, Custom Recovery ... */
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean needBackup = prefs.getBoolean(Constants.BACKUP_PREF, true);
+        String customRecovery = prefs.getString(Constants.CUSTOM_RECOVERY_PREF, "");
 
         /* Generate the script */
 
         if (isUseOpenRecoveryScript) {
-            updateWithOpenRecoveryScript(zipPath, updateFileName, needBackup);
+            updateWithOpenRecoveryScript(zipPath, updateFileName, needBackup, customRecovery);
         } else {
             updateByDefault(zipPath, needBackup);
         }
 
         // Trigger the reboot
-        PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        powerManager.reboot("recovery");
+        // PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        // powerManager.reboot("recovery");
     }
 
     private static void updateByDefault(String zipPath, boolean needBackup) throws IOException {
@@ -200,7 +201,7 @@ public class Utils {
         os.flush();
     }
 
-    private static void updateWithOpenRecoveryScript(String zipPath, String updateFileName, boolean needBackup) throws IOException {
+    private static void updateWithOpenRecoveryScript(String zipPath, String updateFileName, boolean needBackup, String customRecovery) throws IOException {
         /*
          * Should perform the following steps.
          * 1.- mkdir -p /cache/recovery
@@ -225,9 +226,14 @@ public class Utils {
         os.write(("echo 'wipe cache' >> /cache/recovery/openrecoveryscript\n").getBytes());
         os.write(("echo 'wipe dalvik' >> /cache/recovery/openrecoveryscript\n").getBytes());
 
-        /* TODO: support custom commands to flash for example :
+        /* 
+         * Support custom commands to flash for example :
          * SuperSU, GApps ...
          */
+        if (customRecovery != null && !customRecovery.isEmpty()) {
+            os.write(("cat << EOF >> /cache/recovery/openrecoveryscript\n" + customRecovery + "\nEOF\n").getBytes());
+        }
+
         os.flush();
     }
 
