@@ -41,6 +41,10 @@
     <string name="check_bi_weekly">Bi-weekly</string>
     <string name="check_monthly">Monthly</string>
 
+    <!-- Backup -->
+    <string name="backup_title">Backup before update</string>
+    <string name="backup_summary">Backup System, Boot and Data</string>
+
     <!-- Update checking -->
     <string name="checking_for_updates">Checking for updates</string>
     <string name="no_updates_found">No new updates found</string>

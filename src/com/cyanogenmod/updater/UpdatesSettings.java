@@ -33,6 +33,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.preference.SwitchPreference;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.format.DateFormat;
@@ -85,6 +86,7 @@ public class UpdatesSettings extends PreferenceActivity implements
 
     private SharedPreferences mPrefs;
     private ListPreference mUpdateCheck;
+    private SwitchPreference mBackup;
 
     private PreferenceCategory mUpdatesList;
     private UpdatePreference mDownloadingPreference;
@@ -142,6 +144,7 @@ public class UpdatesSettings extends PreferenceActivity implements
         }
         mUpdatesList = (PreferenceCategory) findPreference(UPDATES_CATEGORY);
         mUpdateCheck = (ListPreference) findPreference(Constants.UPDATE_CHECK_PREF);
+        mBackup = (SwitchPreference) findPreference(Constants.BACKUP_PREF);
 
         // Load the stored preference data
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -150,6 +153,12 @@ public class UpdatesSettings extends PreferenceActivity implements
             mUpdateCheck.setValue(String.valueOf(check));
             mUpdateCheck.setSummary(mapCheckValue(check));
             mUpdateCheck.setOnPreferenceChangeListener(this);
+        }
+
+        if(mBackup != null) {
+            if (!getResources().getBoolean(R.bool.conf_use_openrecoveryscript)) {
+                mBackup.setEnabled(false);
+            }
         }
 
         // Force a refresh if UPDATE_TYPE_PREF does not match release type

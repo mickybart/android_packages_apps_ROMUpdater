@@ -156,10 +156,16 @@ public class Utils {
                 primaryStoragePath;
         String zipPath = updatePath + "/" + Constants.UPDATES_FOLDER + "/" + updateFileName;
 
+        /* Backup ? */
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean needBackup = prefs.getBoolean(Constants.BACKUP_PREF, true);
+
+        /* Generate the script */
+
         if (isUseOpenRecoveryScript) {
-            updateWithOpenRecoveryScript(zipPath, updateFileName);
+            updateWithOpenRecoveryScript(zipPath, updateFileName, needBackup);
         } else {
-            updateByDefault(zipPath);
+            updateByDefault(zipPath, needBackup);
         }
 
         // Trigger the reboot
@@ -167,7 +173,7 @@ public class Utils {
         powerManager.reboot("recovery");
     }
 
-    private static void updateByDefault(String zipPath) throws IOException {
+    private static void updateByDefault(String zipPath, boolean needBackup) throws IOException {
         /*
          * Should perform the following steps.
          * 1.- mkdir -p /cache/recovery
@@ -184,7 +190,7 @@ public class Utils {
 
         // See if backups are enabled and add the nandroid flag
         /* TODO: add this back once we have a way of doing backups that is not recovery specific
-           if (mPrefs.getBoolean(Constants.BACKUP_PREF, true)) {
+           if (needBackup) {
            os.write("echo '--nandroid'  >> /cache/recovery/command\n".getBytes());
            }
            */
@@ -194,7 +200,7 @@ public class Utils {
         os.flush();
     }
 
-    private static void updateWithOpenRecoveryScript(String zipPath, String updateFileName) throws IOException {
+    private static void updateWithOpenRecoveryScript(String zipPath, String updateFileName, boolean needBackup) throws IOException {
         /*
          * Should perform the following steps.
          * 1.- mkdir -p /cache/recovery
@@ -210,12 +216,9 @@ public class Utils {
         os.write("mkdir -p /cache/recovery/\n".getBytes());
         os.write("touch /cache/recovery/openrecoveryscript".getBytes());
 
-        // See if backups are enabled and add the nandroid flag
-        /* TODO: add this back once we have a way of doing backups that is not recovery specific
-           if (mPrefs.getBoolean(Constants.BACKUP_PREF, true)) {
+        if (needBackup) {
            os.write(("echo 'backup SDB before-" + updateFileName + "'  >> /cache/recovery/openrecoveryscript\n").getBytes());
-           }
-           */
+        }
 
         os.write(("echo 'install " + zipPath + "' >> /cache/recovery/openrecoveryscript\n").getBytes());
 

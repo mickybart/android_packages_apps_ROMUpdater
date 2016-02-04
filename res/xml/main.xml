@@ -20,6 +20,13 @@
          android:entries="@array/update_check_entries"
          android:entryValues="@array/update_check_values"/>
 
+    <SwitchPreference
+         android:key="pref_enable_backup"
+         android:title="@string/backup_title"
+         android:summary="@string/backup_summary"
+         android:defaultValue="true"
+         android:persistent="true" />
+
     <PreferenceCategory
         android:key="updates_category"
         android:title="@string/available_updates_title">
