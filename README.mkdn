@@ -30,8 +30,15 @@ Add into device.mk:
         ro.build.version.updater=$(ROM_FINAL_NAME) \
         persist.rom.updater.uri=https://www.dropbox.com/s/.../updates.txt?dl=1
 
-Add overlay for android_packages_apps_ROMUpdater/res/values/config.xml and configure it as you need. (change default urls, disable OpenRecoveryScript support etc)
-
+Add overlay:<br>
+check android_packages_apps_ROMUpdater/res/values/config.xml and configure it as you need (change default urls, disable OpenRecoveryScript support etc)<br>
+<br>
+<br>
+Commit needed:<br>
+Settings: https://github.com/mickybart/android_packages_apps_Settings/commit/cf644aead9caf8e17da1a9d568ceb1e6e2a820f2 <br>
+SELinux : https://github.com/mickybart/device_sony_nozomi/commit/fb82c7476dcd6b70f940cc808563f2fba039e6c8 <br>
+Framework/base: https://github.com/mickybart/android_frameworks_base/commit/c79751fe4a63b65c84b8e61b1d1a8a10eef3bf15 <br>
+Framework/base: https://github.com/mickybart/android_frameworks_base/commit/b698c32be0a97abc6997917642e7c87c7ba2566b <br>
 
 Server side
 ====================
@@ -70,6 +77,24 @@ Example of updates.txt content:
      ], 
      "error": null
     }
+
+Example of changelog content:
+
+    ===================================
+    RELEASE NAME
+    ===================================
+    
+       * Important message
+    Feature 1
+    Feature 2
+    
+    ===================================
+    RELEASE NAME2
+    ===================================
+    
+    Feature 1
+    Feature ..
+    Feature N
 
 [XDA Thread](http://forum.xda-developers.com/xperia-s/s-development/rom-naosprom-xperia-s-t2958516) <br>
 Author:
