@@ -21,12 +21,14 @@ import android.widget.Toast;
 
 import com.cyanogenmod.updater.R;
 import com.cyanogenmod.updater.misc.Constants;
+import com.cyanogenmod.updater.misc.State;
 import com.cyanogenmod.updater.misc.UpdateInfo;
 import com.cyanogenmod.updater.service.DownloadCompleteIntentService;
 import com.cyanogenmod.updater.service.DownloadService;
 import com.cyanogenmod.updater.utils.Utils;
 
 import java.io.IOException;
+import java.util.LinkedList;
 
 public class DownloadReceiver extends BroadcastReceiver{
     private static final String TAG = "DownloadReceiver";
@@ -54,7 +56,14 @@ public class DownloadReceiver extends BroadcastReceiver{
             sb.collapsePanels();
             String fileName = intent.getStringExtra(EXTRA_FILENAME);
             try {
-                Utils.triggerUpdate(context, fileName);
+                // Need to find the associated UpdateInfo
+                LinkedList<UpdateInfo> updates = State.loadState(context);
+                for (UpdateInfo update : updates) {
+                    if (update.getFileName().equals(fileName)) {
+                        Utils.triggerUpdate(context, update);
+                        break;
+                    }
+                }
             } catch (IOException e) {
                 Log.e(TAG, "Unable to reboot into recovery mode", e);
                 Toast.makeText(context, R.string.apply_unable_to_reboot_toast,

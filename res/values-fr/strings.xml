@@ -25,6 +25,7 @@
   <string name="no_available_updates_intro_tv">Aucune mise à jour n\'a été trouvée lors de la dernière vérification. Pour vérifier manuellement, appuyez sur \"Information système\".</string>
   <string name="new_update_summary">Nouvelle</string>
   <string name="downloaded_update_summary">Téléchargée</string>
+  <string name="lost_downloaded_update_summary">Plus supportée</string>
   <string name="installed_update_summary">Installée</string>
   <string name="update_check_title">Fréquence de vérification</string>
   <string name="check_manual">Manuelle</string>
@@ -61,6 +62,9 @@
   <string name="apply_update_dialog_title">Appliquer la mise à jour</string>
   <string name="apply_update_dialog_text">Vous êtes sur le point d\'installer <xliff:g id="filename">%s</xliff:g>.\n\nLorsque vous appuierez sur « Mettre à jour », votre appareil redémarrera automatiquement pour installer la mise à jour.\n\nRemarque\u00A0: Cette opération nécessite un recovery compatible, sinon les mises à jour devront être installées manuellement.</string>
   <string name="apply_unable_to_reboot_toast">Impossible de redémarrer en mode recovery</string>
+  <string name="apply_update_wipe_dialog_text">.\n\nLa mise à jour ne supprimera pas le cache dalvik</string>
+  <string name="apply_update_post_dialog_text">.\n\nLa mise à jour n\'exécutera pas de post installation</string>
+  <string name="apply_update_wipe_post_dialog_text">.\n\nLa mise à jour ne supprimera pas le cache dalvik et n\'exécutera pas de post installation</string>
   <string name="confirm_delete_dialog_title">Supprimer le fichier</string>
   <string name="confirm_delete_dialog_title_tv">Cliquez pour supprimer les mises à jour téléchargées du stockage interne</string>
   <string name="confirm_delete_dialog_message">Supprimer le fichier de mise à jour sélectionné\u00A0?</string>
@@ -76,4 +80,6 @@
   <string name="no_changelog_alert">Aucune note de version disponible</string>
   <string name="changelog_dialog_title">Note de version</string>
   <string name="loading_changelog">Chargement\u2026</string>
+  <string name="browser_redirect_dialog_title">Téléchargement manuel</string>
+  <string name="browser_redirect_dialog_message">En raison de contrainte technique, nous ne pouvons pas télécharger directement le fichier.\n\nNous allons ouvrir votre navigateur pour vous permettre de le faire.\nUne fois téléchargé, vous pourrez le déplacer dans le dossier romupdater pour l\'installer via ROM Updater.\n\nMerci de votre compréhension.</string>
 </resources>

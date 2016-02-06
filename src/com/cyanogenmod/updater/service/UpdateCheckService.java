@@ -342,11 +342,14 @@ public class UpdateCheckService extends IntentService
                 .setBuildDate(obj.getLong("timestamp"))
                 .setType(obj.getString("channel"))
                 .setIncremental(obj.getString("incremental"))
+                .setWipeCache(obj.has("wipe_cache") ? obj.getBoolean("wipe_cache") : true)
+                .setPostFlash(obj.has("post_flash") ? obj.getBoolean("post_flash") : true)
+                .setDirectDownload(obj.has("direct_download") ? obj.getBoolean("direct_download") : true)
                 .build();
 
         if (!ui.isNewerThanInstalled()) {
             Log.d(TAG, "Build " + ui.getFileName() + " is older than the installed build");
-            return null;
+            //return null;
         }
 
         return ui;

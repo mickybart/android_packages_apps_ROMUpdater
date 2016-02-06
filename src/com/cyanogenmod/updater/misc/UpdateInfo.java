@@ -45,6 +45,9 @@ public class UpdateInfo implements Parcelable, Serializable {
     private String mChangelogUrl;
     private String mMd5Sum;
     private String mIncremental;
+    private boolean mWipeCache;
+    private boolean mPostFlash;
+    private boolean mDirectDownload;
 
     private Boolean mIsNewerThanInstalled;
 
@@ -115,6 +118,13 @@ public class UpdateInfo implements Parcelable, Serializable {
     public String getDownloadUrl() {
         return mDownloadUrl;
     }
+    
+    /**
+     * Flush download location
+     */
+    public void flushDownloadUrl() {
+        mDownloadUrl = null;
+    }
 
     /**
      * Get changelog location
@@ -129,6 +139,27 @@ public class UpdateInfo implements Parcelable, Serializable {
     public String getIncremental() {
         return mIncremental;
     }
+    
+    /**
+     * Get Wipe Cache request
+     */
+    public boolean getWipeCache() {
+        return mWipeCache;
+    }
+    
+    /**
+     * Get Post Flash request
+     */
+    public boolean getPostFlash() {
+        return mPostFlash;
+    }
+    
+    /**
+     * Get Direct Download request
+     */
+    public boolean getDirectDownload() {
+        return mDirectDownload;
+    }   
 
     /**
      * Whether or not this is an incremental update
@@ -185,7 +216,10 @@ public class UpdateInfo implements Parcelable, Serializable {
                 && mBuildDate == ui.mBuildDate
                 && TextUtils.equals(mDownloadUrl, ui.mDownloadUrl)
                 && TextUtils.equals(mMd5Sum, ui.mMd5Sum)
-                && TextUtils.equals(mIncremental, ui.mIncremental);
+                && TextUtils.equals(mIncremental, ui.mIncremental)
+                && mWipeCache == ui.mWipeCache
+                && mPostFlash == ui.mPostFlash
+                && mDirectDownload == ui.mDirectDownload;
     }
 
     public static final Parcelable.Creator<UpdateInfo> CREATOR = new Parcelable.Creator<UpdateInfo>() {
@@ -213,6 +247,9 @@ public class UpdateInfo implements Parcelable, Serializable {
         out.writeString(mDownloadUrl);
         out.writeString(mMd5Sum);
         out.writeString(mIncremental);
+        out.writeInt(mWipeCache ? 1 : 0);
+        out.writeInt(mPostFlash ? 1 : 0);
+        out.writeInt(mDirectDownload ? 1 : 0);
     }
 
     private void readFromParcel(Parcel in) {
@@ -224,6 +261,9 @@ public class UpdateInfo implements Parcelable, Serializable {
         mDownloadUrl = in.readString();
         mMd5Sum = in.readString();
         mIncremental = in.readString();
+        mWipeCache = (in.readInt() == 1 ? true : false);
+        mPostFlash = (in.readInt() == 1 ? true : false);
+        mDirectDownload = (in.readInt() == 1 ? true : false);
     }
 
     public static class Builder {
@@ -236,7 +276,9 @@ public class UpdateInfo implements Parcelable, Serializable {
         private String mChangelogUrl;
         private String mMd5Sum;
         private String mIncremental;
-
+        private boolean mWipeCache;
+        private boolean mPostFlash;
+        private boolean mDirectDownload;
 
         public Builder setName(String uiName) {
             mUiName = uiName;
@@ -299,6 +341,21 @@ public class UpdateInfo implements Parcelable, Serializable {
             mIncremental = incremental;
             return this;
         }
+        
+        public Builder setWipeCache(boolean wipeCache) {
+            mWipeCache = wipeCache;
+            return this;
+        }
+        
+        public Builder setPostFlash(boolean postFlash) {
+            mPostFlash = postFlash;
+            return this;
+        }
+        
+        public Builder setDirectDownload(boolean directDownload) {
+            mDirectDownload = directDownload;
+            return this;
+        }
 
         public UpdateInfo build() {
             UpdateInfo info = new UpdateInfo();
@@ -311,6 +368,9 @@ public class UpdateInfo implements Parcelable, Serializable {
             info.mChangelogUrl = mChangelogUrl;
             info.mMd5Sum = mMd5Sum;
             info.mIncremental = mIncremental;
+            info.mWipeCache = mWipeCache;
+            info.mPostFlash = mPostFlash;
+            info.mDirectDownload = mDirectDownload;
             return info;
         }
 

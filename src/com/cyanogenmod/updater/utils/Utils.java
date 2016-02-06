@@ -33,6 +33,7 @@ import android.util.Log;
 import com.cyanogenmod.updater.R;
 import com.cyanogenmod.updater.misc.Constants;
 import com.cyanogenmod.updater.service.UpdateCheckService;
+import com.cyanogenmod.updater.misc.UpdateInfo;
 
 import java.io.File;
 import java.io.IOException;
@@ -134,7 +135,7 @@ public class Utils {
         }
     }
 
-    public static void triggerUpdate(Context context, String updateFileName) throws IOException {
+    public static void triggerUpdate(Context context, UpdateInfo ui) throws IOException {
         /* 
          * Should perform the following steps
          * 1.- check recovery functionality
@@ -154,7 +155,7 @@ public class Utils {
                 new File(primaryStoragePath)).getAbsolutePath();
         String updatePath = Environment.isExternalStorageEmulated() ? directPath :
                 primaryStoragePath;
-        String zipPath = updatePath + "/" + Constants.UPDATES_FOLDER + "/" + updateFileName;
+        String zipPath = updatePath + "/" + Constants.UPDATES_FOLDER + "/" + ui.getFileName();
 
         /* Backup, Custom Recovery ... */
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -164,7 +165,7 @@ public class Utils {
         /* Generate the script */
 
         if (isUseOpenRecoveryScript) {
-            updateWithOpenRecoveryScript(zipPath, updateFileName, needBackup, customRecovery);
+            updateWithOpenRecoveryScript(zipPath, ui, needBackup, customRecovery);
         } else {
             updateByDefault(zipPath, needBackup);
         }
@@ -202,7 +203,7 @@ public class Utils {
         os.flush();
     }
 
-    private static void updateWithOpenRecoveryScript(String zipPath, String updateFileName, boolean needBackup, String customRecovery) throws IOException {
+    private static void updateWithOpenRecoveryScript(String zipPath, UpdateInfo ui, boolean needBackup, String customRecovery) throws IOException {
         /*
          * Should perform the following steps.
          * 1.- mkdir -p /cache/recovery
@@ -219,19 +220,21 @@ public class Utils {
         os.write("> /cache/recovery/openrecoveryscript\n".getBytes());
 
         if (needBackup) {
-           os.write(("echo 'backup SDB before-" + updateFileName + "'  >> /cache/recovery/openrecoveryscript\n").getBytes());
+           os.write(("echo 'backup SDB before-" + ui.getFileName() + "'  >> /cache/recovery/openrecoveryscript\n").getBytes());
         }
 
         os.write(("echo 'install " + zipPath + "' >> /cache/recovery/openrecoveryscript\n").getBytes());
 
-        os.write(("echo 'wipe cache' >> /cache/recovery/openrecoveryscript\n").getBytes());
-        os.write(("echo 'wipe dalvik' >> /cache/recovery/openrecoveryscript\n").getBytes());
+        if (ui.getWipeCache()) {
+            os.write(("echo 'wipe cache' >> /cache/recovery/openrecoveryscript\n").getBytes());
+            os.write(("echo 'wipe dalvik' >> /cache/recovery/openrecoveryscript\n").getBytes());
+        }
 
         /* 
          * Support custom commands to flash for example :
          * SuperSU, GApps ...
          */
-        if (customRecovery != null && !customRecovery.isEmpty()) {
+        if (ui.getPostFlash() && customRecovery != null && !customRecovery.isEmpty()) {
             os.write(("echo '" + customRecovery + "' >> /cache/recovery/openrecoveryscript\n").getBytes());
         }
 

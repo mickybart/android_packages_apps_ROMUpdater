@@ -573,15 +573,19 @@ public class UpdatesSettings extends PreferenceActivity implements
         LinkedList<UpdateInfo> availableUpdates = State.loadState(this);
         final LinkedList<UpdateInfo> updates = new LinkedList<UpdateInfo>();
 
-        for (String fileName : existingFiles) {
-            updates.add(new UpdateInfo.Builder().setFileName(fileName).build());
-        }
         for (UpdateInfo update : availableUpdates) {
             // Only add updates to the list that are not already downloaded
             if (existingFiles.contains(update.getFileName())) {
-                continue;
+                // remove it from the list
+                existingFiles.remove(update.getFileName());
+                // flush DownloadUrl (permit to go in DOWNLOADED state)
+                update.flushDownloadUrl();
             }
             updates.add(update);
+        }
+        // Add other files available under the update folder without information
+        for (String fileName : existingFiles) {
+            updates.add(new UpdateInfo.Builder().setFileName(fileName).build());
         }
 
         Collections.sort(updates, new Comparator<UpdateInfo>() {
@@ -670,8 +674,10 @@ public class UpdatesSettings extends PreferenceActivity implements
                 style = UpdatePreference.STYLE_INSTALLED;
             } else if (ui.getDownloadUrl() != null) {
                 style = UpdatePreference.STYLE_NEW;
-            } else {
+            } else if (ui.getMD5Sum() != null) {
                 style = UpdatePreference.STYLE_DOWNLOADED;
+            } else {
+                style = UpdatePreference.STYLE_LOST_DOWNLOADED;
             }
 
             UpdatePreference up = new UpdatePreference(this, ui, style);
@@ -869,9 +875,18 @@ public class UpdatesSettings extends PreferenceActivity implements
         }
 
         mStartUpdateVisible = true;
-
+        
+        String bodyVariable = updateInfo.getName();
+        if (!updateInfo.getWipeCache() && !updateInfo.getPostFlash()) {
+            bodyVariable += getString(R.string.apply_update_wipe_post_dialog_text);
+        } else if (!updateInfo.getWipeCache()) {
+            bodyVariable += getString(R.string.apply_update_wipe_dialog_text);
+        } else if (!updateInfo.getPostFlash()) {
+            bodyVariable += getString(R.string.apply_update_post_dialog_text);
+        }
+        
         // Get the message body right
-        String dialogBody = getString(R.string.apply_update_dialog_text, updateInfo.getName());
+        String dialogBody = getString(R.string.apply_update_dialog_text, bodyVariable);
 
         // Display the dialog
         new AlertDialog.Builder(this)
@@ -881,7 +896,7 @@ public class UpdatesSettings extends PreferenceActivity implements
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         try {
-                            Utils.triggerUpdate(UpdatesSettings.this, updateInfo.getFileName());
+                            Utils.triggerUpdate(UpdatesSettings.this, updateInfo);
                         } catch (IOException e) {
                             Log.e(TAG, "Unable to reboot into recovery mode", e);
                             Toast.makeText(UpdatesSettings.this, R.string.apply_unable_to_reboot_toast,

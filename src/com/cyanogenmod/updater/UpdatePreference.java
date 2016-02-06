@@ -12,6 +12,7 @@ package com.cyanogenmod.updater;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -36,6 +37,7 @@ public class UpdatePreference extends Preference implements OnClickListener, OnL
     public static final int STYLE_DOWNLOADING = 2;
     public static final int STYLE_DOWNLOADED = 3;
     public static final int STYLE_INSTALLED = 4;
+    public static final int STYLE_LOST_DOWNLOADED = 5;
 
     public interface OnActionListener {
         void onStartDownload(UpdatePreference pref);
@@ -75,7 +77,10 @@ public class UpdatePreference extends Preference implements OnClickListener, OnL
                     mOnActionListener.onStopDownload(UpdatePreference.this);
                     break;
                 case STYLE_NEW:
-                    mOnActionListener.onStartDownload(UpdatePreference.this);
+                    if (mUpdateInfo.getDirectDownload())
+                        mOnActionListener.onStartDownload(UpdatePreference.this);
+                    else
+                        redirectBrowser();
                     break;
             }
         }
@@ -116,6 +121,7 @@ public class UpdatePreference extends Preference implements OnClickListener, OnL
     public boolean onLongClick(View v) {
         switch (mStyle) {
             case STYLE_DOWNLOADED:
+            case STYLE_LOST_DOWNLOADED:
             case STYLE_INSTALLED:
                 confirmDelete();
                 break;
@@ -131,8 +137,10 @@ public class UpdatePreference extends Preference implements OnClickListener, OnL
 
     @Override
     public void onClick(View v) {
-        final Context context = getContext();
-        new FetchChangeLogTask(context).execute(mUpdateInfo);
+        if (mStyle != STYLE_LOST_DOWNLOADED) {
+            final Context context = getContext();
+            new FetchChangeLogTask(context).execute(mUpdateInfo);
+        }
     }
 
     private void confirmDelete() {
@@ -146,6 +154,23 @@ public class UpdatePreference extends Preference implements OnClickListener, OnL
                         if (mOnActionListener != null) {
                             mOnActionListener.onDeleteUpdate(UpdatePreference.this);
                         }
+                    }
+                })
+                .setNegativeButton(R.string.dialog_cancel, null)
+                .show();
+    }
+    
+    private void redirectBrowser() {
+        new AlertDialog.Builder(getContext())
+                .setTitle(R.string.browser_redirect_dialog_title)
+                .setMessage(R.string.browser_redirect_dialog_message)
+                .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // redirect
+                        Uri uriUrl = Uri.parse(mUpdateInfo.getDownloadUrl());
+                        Intent intentUrl = new Intent(Intent.ACTION_VIEW, uriUrl);
+                        getContext().startActivity(intentUrl);
                     }
                 })
                 .setNegativeButton(R.string.dialog_cancel, null)
@@ -248,6 +273,15 @@ public class UpdatePreference extends Preference implements OnClickListener, OnL
                 mUpdatesButton.setImageResource(R.drawable.ic_tab_install);
                 mUpdatesButton.setEnabled(true);
                 mSummaryText.setText(R.string.downloaded_update_summary);
+                mSummaryText.setVisibility(View.VISIBLE);
+                mProgressBar.setVisibility(View.GONE);
+                break;
+
+            case STYLE_LOST_DOWNLOADED:
+                // Hide the install button
+                mUpdatesButton.setEnabled(false);
+                mUpdatesButton.setVisibility(View.INVISIBLE);
+                mSummaryText.setText(R.string.lost_downloaded_update_summary);
                 mSummaryText.setVisibility(View.VISIBLE);
                 mProgressBar.setVisibility(View.GONE);
                 break;

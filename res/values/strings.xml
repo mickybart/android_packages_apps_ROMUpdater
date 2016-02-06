@@ -30,6 +30,7 @@
     <string name="no_available_updates_intro_tv">The last check did not find any available updates. To manually check for new updates, click \'System information\'.</string>
     <string name="new_update_summary">New</string>
     <string name="downloaded_update_summary">Downloaded</string>
+    <string name="lost_downloaded_update_summary">Not supported anymore</string>
     <string name="installed_update_summary">Installed</string>
 
     <string name="update_check_title">Check for updates</string>
@@ -81,6 +82,9 @@
     <string name="apply_update_dialog_title">Apply update</string>
     <string name="apply_update_dialog_text">You are about to upgrade to <xliff:g id="filename">%s</xliff:g>.\n\nIf you press Update, the device will restart itself in recovery mode to install the update.\n\nNote: This feature requires a compatible Recovery or updates will need to be installed manually.</string>
     <string name="apply_unable_to_reboot_toast">Unable to reboot into recovery</string>
+    <string name="apply_update_wipe_dialog_text">.\n\nThis update will not wipe dalvik</string>
+    <string name="apply_update_post_dialog_text">.\n\nThis update will not run post update</string>
+    <string name="apply_update_wipe_post_dialog_text">.\n\nThis update will not wipe dalvik and not run post update</string>
 
     <!-- deleting -->
     <string name="confirm_delete_dialog_title">Delete file</string>
@@ -102,4 +106,8 @@
     <string name="no_changelog_alert">No changelog available</string>
     <string name="changelog_dialog_title">Changelog</string>
     <string name="loading_changelog">Loading\u2026</string>
+
+    <!-- redirect download to browser -->
+    <string name="browser_redirect_dialog_title">Manual download</string>
+    <string name="browser_redirect_dialog_message">Due to technical constraint, we can\'t direct download the file.\n\nWe will open your browser to permit you to do it.\nOnce done, you can move the file into romupdater folder and install it in ROM Updater.\n\nThanks for your understanding.</string>
 </resources>
