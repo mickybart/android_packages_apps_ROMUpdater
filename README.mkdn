@@ -5,30 +5,30 @@ ROM Updater is a fork of CMUpdater but it keep the CyanogenMod compatibilty<br>
 
 It adds functions like:
 
-    OpenRecoveryScript support<br>
-    Backup Support<br>
-    Post update actions<br>
-    Direct Download and Manual Download of a ROM<br>
-    Wipe cache/dalvik and Post update actions control for specific flash procedure<br>
-    Generic for all based AOSP ROM (but keep CyanogenMod compatibilty)<br>
-    Static and CyanogenMod Rest API support<br>
+    OpenRecoveryScript support
+    Backup Support
+    Post update actions
+    Direct Download and Manual Download of a ROM
+    Wipe cache/dalvik and Post update actions control for specific flash procedure
+    Generic for all based AOSP ROM (but keep CyanogenMod compatibilty)
+    Static and CyanogenMod Rest API support
 
 AOSP build integration
 ====================
 
 Add into device.mk:
 
-    # ROM Updater<br>
-    ifeq ($(ROM_FINAL_NAME),)<br>
-      $(error No ROM_FINAL_NAME defined.)<br>
-    endif<br>
-    <br>
-    PRODUCT_PACKAGES += \<br>
-        ROMUpdater<br>
-    <br>
-    PRODUCT_PROPERTY_OVERRIDES += \<br>
-        ro.build.version.updater=$(ROM_FINAL_NAME) \<br>
-        persist.rom.updater.uri=https://www.dropbox.com/s/.../updates.txt?dl=1<br>
+    # ROM Updater
+    ifeq ($(ROM_FINAL_NAME),)
+      $(error No ROM_FINAL_NAME defined.)
+    endif
+    
+    PRODUCT_PACKAGES += \
+        ROMUpdater
+    
+    PRODUCT_PROPERTY_OVERRIDES += \
+        ro.build.version.updater=$(ROM_FINAL_NAME) \
+        persist.rom.updater.uri=https://www.dropbox.com/s/.../updates.txt?dl=1
 
 Add overlay for android_packages_apps_ROMUpdater/res/values/config.xml and configure it as you need. (change default urls, disable OpenRecoveryScript support etc)
 
@@ -38,38 +38,38 @@ Server side
 
 Example of updates.txt content:
 
-    {<br>
-     "id": null, <br>
-     "result": [<br>
-      {<br>
-       "url": "https://www.dropbox.com/s/.../nAOSProm-6.0-b05-f01.zip?dl=1", <br>
-       "timestamp": "1454716916", <br>
-       "md5sum": "91044e99c90b591cec7f472334fbf1f7", <br>
-       "filename": "nAOSProm-6.0-b05-f01.zip", <br>
-       "incremental": null, <br>
-       "channel": "stable", <br>
-       "changes": "https://www.dropbox.com/s/.../nAOSProm-6.0-bxx-changelog.txt?dl=1", <br>
-       "api_level": 23,<br>
-       "wipe_cache" : false,<br>
-       "direct_download" : true,<br>
-       "post_flash" : false<br>
-      },<br>
-      {<br>
-       "url": "https://www.androidfilehost.com/?fid=...", <br>
-       "timestamp": "1454614701", <br>
-       "md5sum": "63f2e2cd7bb88a98d4335090459fee6c", <br>
-       "filename": "nAOSProm-6.0-b05.zip", <br>
-       "incremental": null, <br>
-       "channel": "stable", <br>
-       "changes": "https://www.dropbox.com/s/.../nAOSProm-6.0-bxx-changelog.txt?dl=1", <br>
-       "api_level": 23,<br>
-       "wipe_cache" : true,<br>
-       "direct_download" : false,<br>
-       "post_flash" : true<br>
-      },<br>
-     ], <br>
-     "error": null<br>
-    }<br>
+    {
+     "id": null, 
+     "result": [
+      {
+       "url": "https://www.dropbox.com/s/.../nAOSProm-6.0-b05-f01.zip?dl=1", 
+       "timestamp": "1454716916", 
+       "md5sum": "91044e99c90b591cec7f472334fbf1f7", 
+       "filename": "nAOSProm-6.0-b05-f01.zip", 
+       "incremental": null, 
+       "channel": "stable", 
+       "changes": "https://www.dropbox.com/s/.../nAOSProm-6.0-bxx-changelog.txt?dl=1", 
+       "api_level": 23,
+       "wipe_cache" : false,
+       "direct_download" : true,
+       "post_flash" : false
+      },
+      {
+       "url": "https://www.androidfilehost.com/?fid=...", 
+       "timestamp": "1454614701", 
+       "md5sum": "63f2e2cd7bb88a98d4335090459fee6c", 
+       "filename": "nAOSProm-6.0-b05.zip", 
+       "incremental": null, 
+       "channel": "stable", 
+       "changes": "https://www.dropbox.com/s/.../nAOSProm-6.0-bxx-changelog.txt?dl=1", 
+       "api_level": 23,
+       "wipe_cache" : true,
+       "direct_download" : false,
+       "post_flash" : true
+      },
+     ], 
+     "error": null
+    }
 
 [XDA Thread](http://forum.xda-developers.com/xperia-s/s-development/rom-naosprom-xperia-s-t2958516) <br>
 Author:
