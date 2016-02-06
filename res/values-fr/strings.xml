@@ -24,6 +24,7 @@
   <string name="no_available_updates_intro">Aucune mise à jour disponible lors de la dernière vérification. Pour vérifier manuellement les mises à jour, utilisez le bouton Actualiser.</string>
   <string name="no_available_updates_intro_tv">Aucune mise à jour n\'a été trouvée lors de la dernière vérification. Pour vérifier manuellement, appuyez sur \"Information système\".</string>
   <string name="new_update_summary">Nouvelle</string>
+  <string name="old_update_summary">Vieille</string>
   <string name="downloaded_update_summary">Téléchargée</string>
   <string name="lost_downloaded_update_summary">Plus supportée</string>
   <string name="installed_update_summary">Installée</string>

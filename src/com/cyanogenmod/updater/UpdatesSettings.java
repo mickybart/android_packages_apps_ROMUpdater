@@ -677,7 +677,7 @@ public class UpdatesSettings extends PreferenceActivity implements
             } else if (ui.getMD5Sum() != null) {
                 style = UpdatePreference.STYLE_DOWNLOADED;
             } else {
-                style = UpdatePreference.STYLE_LOST_DOWNLOADED;
+                style = UpdatePreference.STYLE_UNSUPPORTED_DOWNLOADED;
             }
 
             UpdatePreference up = new UpdatePreference(this, ui, style);

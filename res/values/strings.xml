@@ -29,6 +29,7 @@
     <string name="no_available_updates_intro">The last check did not find any available updates. To manually check for new updates, use the Refresh button.</string>
     <string name="no_available_updates_intro_tv">The last check did not find any available updates. To manually check for new updates, click \'System information\'.</string>
     <string name="new_update_summary">New</string>
+    <string name="old_update_summary">Old</string>
     <string name="downloaded_update_summary">Downloaded</string>
     <string name="lost_downloaded_update_summary">Not supported anymore</string>
     <string name="installed_update_summary">Installed</string>

@@ -37,7 +37,7 @@ public class UpdatePreference extends Preference implements OnClickListener, OnL
     public static final int STYLE_DOWNLOADING = 2;
     public static final int STYLE_DOWNLOADED = 3;
     public static final int STYLE_INSTALLED = 4;
-    public static final int STYLE_LOST_DOWNLOADED = 5;
+    public static final int STYLE_UNSUPPORTED_DOWNLOADED = 5;
 
     public interface OnActionListener {
         void onStartDownload(UpdatePreference pref);
@@ -121,7 +121,7 @@ public class UpdatePreference extends Preference implements OnClickListener, OnL
     public boolean onLongClick(View v) {
         switch (mStyle) {
             case STYLE_DOWNLOADED:
-            case STYLE_LOST_DOWNLOADED:
+            case STYLE_UNSUPPORTED_DOWNLOADED:
             case STYLE_INSTALLED:
                 confirmDelete();
                 break;
@@ -137,7 +137,7 @@ public class UpdatePreference extends Preference implements OnClickListener, OnL
 
     @Override
     public void onClick(View v) {
-        if (mStyle != STYLE_LOST_DOWNLOADED) {
+        if (mStyle != STYLE_UNSUPPORTED_DOWNLOADED) {
             final Context context = getContext();
             new FetchChangeLogTask(context).execute(mUpdateInfo);
         }
@@ -277,7 +277,7 @@ public class UpdatePreference extends Preference implements OnClickListener, OnL
                 mProgressBar.setVisibility(View.GONE);
                 break;
 
-            case STYLE_LOST_DOWNLOADED:
+            case STYLE_UNSUPPORTED_DOWNLOADED:
                 // Hide the install button
                 mUpdatesButton.setEnabled(false);
                 mUpdatesButton.setVisibility(View.INVISIBLE);
@@ -308,7 +308,12 @@ public class UpdatePreference extends Preference implements OnClickListener, OnL
                 // Show the download button image and summary of 'New'
                 mUpdatesButton.setImageResource(R.drawable.ic_tab_download);
                 mUpdatesButton.setEnabled(true);
-                mSummaryText.setText(R.string.new_update_summary);
+                if (mUpdateInfo.isNewerThanInstalled()) {
+                    mSummaryText.setText(R.string.new_update_summary);
+                } else {
+                    // Older but can be downloaded as it is new
+                    mSummaryText.setText(R.string.old_update_summary);
+                }
                 mSummaryText.setVisibility(View.VISIBLE);
                 mProgressBar.setVisibility(View.GONE);
                 break;
