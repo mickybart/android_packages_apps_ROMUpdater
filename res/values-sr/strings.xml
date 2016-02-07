@@ -9,7 +9,7 @@
      or at https://www.gnu.org/licenses/gpl-2.0.txt
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string name="app_name">СМ Ажурирање</string>
+  <string name="app_name">ROM Updater</string>
   <string name="display_name">Ажурирања</string>
   <string name="unknown">Непознато</string>
   <string name="menu_refresh">Освежи</string>
@@ -24,7 +24,9 @@
   <string name="no_available_updates_intro">Последња провера није нашла никаква доступна ажурирања. Да би ручно проверио за нова ажурирања, користи дугме за освежавање.</string>
   <string name="no_available_updates_intro_tv">Задња провера није пронашла доступна ажурирања. Да ручно провериш нова ажурирања додирни \'Системске информације\'.</string>
   <string name="new_update_summary">Ново</string>
+  <string name="old_update_summary">Старо</string>
   <string name="downloaded_update_summary">Преузето</string>
+  <string name="lost_downloaded_update_summary">Није више подржано</string>
   <string name="installed_update_summary">Инсталирано</string>
   <string name="update_check_title">Провери за ажурирања</string>
   <string name="check_manual">Ручно</string>
@@ -34,6 +36,10 @@
   <string name="check_weekly">Недељно</string>
   <string name="check_bi_weekly">Двонедељно</string>
   <string name="check_monthly">Месечно</string>
+  <string name="backup_title">Сачувај пре ажурирања</string>
+  <string name="backup_summary">Сачувај System, Boot и Data</string>
+  <string name="custom_recovery_title">Пост-ажурирање</string>
+  <string name="custom_recovery_summary">Додај GApps, SuperSU, Xposed, итд</string>
   <string name="checking_for_updates">Провера за ажурирања</string>
   <string name="no_updates_found">Нису пронађена нова ажурирања</string>
   <string name="update_check_failed">Провера за ажурирања није успела. Провери своју интернет везу и покушај поново касније.</string>
@@ -57,6 +63,9 @@
   <string name="apply_update_dialog_title">Примени ажурирање</string>
   <string name="apply_update_dialog_text">Надоградња на <xliff:g id="filename">%s</xliff:g>.\n\nАко притиснеш Ажурирај, уређај ће се поново покренути у \'Опоравак\' да инсталира ажурирање.\n\nНапомена: Ова функција захтева компатибилни \'Опоравак\' или ћеш морати ажурирање да инсталираш ручно.</string>
   <string name="apply_unable_to_reboot_toast">Немогуће да се рестартује у опоравак</string>
+  <string name="apply_update_wipe_dialog_text">.\n\nОво ажурирање неће обрисати dalvik</string>
+  <string name="apply_update_post_dialog_text">.\n\nОво ажурирање неће стартовати пост-ажурирање</string>
+  <string name="apply_update_wipe_post_dialog_text">.\n\nОво ажурирање неће обрисати dalvik нити стартовати пост-ажурирање</string>
   <string name="confirm_delete_dialog_title">Избриши фајл</string>
   <string name="confirm_delete_dialog_title_tv">Додирни да уклониш сва скинута ажурирања из унутрашњег складишта</string>
   <string name="confirm_delete_dialog_message">Избриши изабрани фајл за ажурирање?</string>
@@ -72,4 +81,6 @@
   <string name="no_changelog_alert">Нема доступних евиденција измена</string>
   <string name="changelog_dialog_title">Евиденција измена</string>
   <string name="loading_changelog">Учитавање\u2026</string>
+  <string name="browser_redirect_dialog_title">Ручно преузимање</string>
+  <string name="browser_redirect_dialog_message">Због техничких ограничења не можемо преузети датотеку.\n\nОтворићемо браузер да би сте ви то урадили.\nПосле преузимања преместите датотеку у romupdater фолдер и инсталирајте је у ROM Updater-у.\n\nХвала на разумевању.</string>
 </resources>
