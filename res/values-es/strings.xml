@@ -9,7 +9,7 @@
      or at https://www.gnu.org/licenses/gpl-2.0.txt
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string name="app_name">Actualizador de CM</string>
+  <string name="app_name">Actualizador de ROM</string>
   <string name="display_name">Actualizaciones</string>
   <string name="unknown">Desconocida</string>
   <string name="menu_refresh">Actualizar</string>

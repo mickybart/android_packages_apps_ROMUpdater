@@ -50,6 +50,7 @@
     <!-- Custom Recovery -->
     <string name="custom_recovery_title">Post update</string>
     <string name="custom_recovery_summary">Flash GApps, SuperSU, Xposed, etc</string>
+    <string name="custom_recovery_hint">OpenRecoveryScript:\ninstall /data/media/0/gapps.zip\ninstall ...\nreboot\n</string>
 
     <!-- Update checking -->
     <string name="checking_for_updates">Checking for updates</string>

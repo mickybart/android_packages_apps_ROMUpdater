@@ -9,7 +9,7 @@
      or at https://www.gnu.org/licenses/gpl-2.0.txt
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string name="app_name">مُحدّث CM</string>
+  <string name="app_name">مُحدّث ROM</string>
   <string name="display_name">التحديثات</string>
   <string name="unknown">غير معروف</string>
   <string name="menu_refresh">تحديث</string>

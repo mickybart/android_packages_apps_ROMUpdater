@@ -9,7 +9,7 @@
      or at https://www.gnu.org/licenses/gpl-2.0.txt
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string name="app_name">Anovador CM</string>
+  <string name="app_name">Anovador ROM</string>
   <string name="display_name">Anovamientos</string>
   <string name="unknown">Desconocíu</string>
   <string name="menu_refresh">Refrescar</string>

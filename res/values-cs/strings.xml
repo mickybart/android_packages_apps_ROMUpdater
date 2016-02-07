@@ -9,8 +9,8 @@
      or at https://www.gnu.org/licenses/gpl-2.0.txt
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string name="app_name">Aktualizace CM</string>
-  <string name="display_name">Aktualizace CM</string>
+  <string name="app_name">Aktualizace ROM</string>
+  <string name="display_name">Aktualizace ROM</string>
   <string name="unknown">Neznámý</string>
   <string name="menu_refresh">Obnovit</string>
   <string name="menu_delete_all">Odstranit stažené soubory</string>
