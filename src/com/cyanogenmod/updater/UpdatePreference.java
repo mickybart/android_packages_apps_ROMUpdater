@@ -272,7 +272,12 @@ public class UpdatePreference extends Preference implements OnClickListener, OnL
                 // Show the install image and summary of 'Downloaded'
                 mUpdatesButton.setImageResource(R.drawable.ic_tab_install);
                 mUpdatesButton.setEnabled(true);
-                mSummaryText.setText(R.string.downloaded_update_summary);
+                if (mUpdateInfo.isNewerThanInstalled()) {
+                    mSummaryText.setText(R.string.new_update_summary);
+                } else {
+                    // Older but downloaded and available
+                    mSummaryText.setText(getContext().getString(R.string.old_update_summary) + " | " + getContext().getString(R.string.downloaded_update_summary));
+                }
                 mSummaryText.setVisibility(View.VISIBLE);
                 mProgressBar.setVisibility(View.GONE);
                 break;
