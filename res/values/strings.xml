@@ -87,6 +87,8 @@
     <string name="apply_update_wipe_dialog_text">.\n\nThis update will not wipe dalvik</string>
     <string name="apply_update_post_dialog_text">.\n\nThis update will not run post update</string>
     <string name="apply_update_wipe_post_dialog_text">.\n\nThis update will not wipe dalvik and not run post update</string>
+    <string name="depends_update_dialog_title">Dependency issue</string>
+    <string name="depends_update_dialog_text">You need to install <xliff:g id="filename">%s</xliff:g> before.</string>
 
     <!-- deleting -->
     <string name="confirm_delete_dialog_title">Delete file</string>

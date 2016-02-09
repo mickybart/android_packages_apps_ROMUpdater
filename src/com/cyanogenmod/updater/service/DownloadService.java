@@ -167,6 +167,7 @@ public class DownloadService extends IntentService
                     .setWipeCache(obj.has("wipe_cache") ? obj.getBoolean("wipe_cache") : true)
                     .setPostFlash(obj.has("post_flash") ? obj.getBoolean("post_flash") : true)
                     .setDirectDownload(obj.has("direct_download") ? obj.getBoolean("direct_download") : true)
+                    .setDepends(obj.has("depends") ? obj.getString("depends") : null)
                     .build();
         } catch (JSONException e) {
             Log.e(TAG, "JSONException", e);

@@ -48,7 +48,8 @@ public class UpdateInfo implements Parcelable, Serializable {
     private boolean mWipeCache;
     private boolean mPostFlash;
     private boolean mDirectDownload;
-
+    private String mDepends;
+    
     private Boolean mIsNewerThanInstalled;
 
     private UpdateInfo() {
@@ -159,7 +160,14 @@ public class UpdateInfo implements Parcelable, Serializable {
      */
     public boolean getDirectDownload() {
         return mDirectDownload;
-    }   
+    }
+    
+    /**
+     * Get Depends
+     */
+    public String getDepends() {
+        return mDepends;
+    }
 
     /**
      * Whether or not this is an incremental update
@@ -187,6 +195,16 @@ public class UpdateInfo implements Parcelable, Serializable {
         }
 
         return mIsNewerThanInstalled;
+    }
+    
+    public boolean isDependsConfirmed() {
+        if(mDepends == null || mDepends.isEmpty())
+            return true;
+        
+        if(mDepends.equals(Utils.getInstalledVersion()))
+            return true;
+            
+        return false;
     }
 
     public static String extractUiName(String fileName) {
@@ -250,6 +268,7 @@ public class UpdateInfo implements Parcelable, Serializable {
         out.writeInt(mWipeCache ? 1 : 0);
         out.writeInt(mPostFlash ? 1 : 0);
         out.writeInt(mDirectDownload ? 1 : 0);
+        out.writeString(mDepends);
     }
 
     private void readFromParcel(Parcel in) {
@@ -264,6 +283,7 @@ public class UpdateInfo implements Parcelable, Serializable {
         mWipeCache = (in.readInt() == 1 ? true : false);
         mPostFlash = (in.readInt() == 1 ? true : false);
         mDirectDownload = (in.readInt() == 1 ? true : false);
+        mDepends = in.readString();
     }
 
     public static class Builder {
@@ -279,6 +299,7 @@ public class UpdateInfo implements Parcelable, Serializable {
         private boolean mWipeCache;
         private boolean mPostFlash;
         private boolean mDirectDownload;
+        private String mDepends;
 
         public Builder setName(String uiName) {
             mUiName = uiName;
@@ -356,6 +377,11 @@ public class UpdateInfo implements Parcelable, Serializable {
             mDirectDownload = directDownload;
             return this;
         }
+        
+        public Builder setDepends(String depends) {
+            mDepends = depends;
+            return this;
+        }
 
         public UpdateInfo build() {
             UpdateInfo info = new UpdateInfo();
@@ -371,6 +397,7 @@ public class UpdateInfo implements Parcelable, Serializable {
             info.mWipeCache = mWipeCache;
             info.mPostFlash = mPostFlash;
             info.mDirectDownload = mDirectDownload;
+            info.mDepends = mDepends;
             return info;
         }
 

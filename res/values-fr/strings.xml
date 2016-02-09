@@ -66,6 +66,8 @@
   <string name="apply_update_wipe_dialog_text">.\n\nLa mise à jour ne supprimera pas le cache dalvik</string>
   <string name="apply_update_post_dialog_text">.\n\nLa mise à jour n\'exécutera pas de post installation</string>
   <string name="apply_update_wipe_post_dialog_text">.\n\nLa mise à jour ne supprimera pas le cache dalvik et n\'exécutera pas de post installation</string>
+  <string name="depends_update_dialog_title">Problème de dépendance</string>
+  <string name="depends_update_dialog_text">Vous devez installer <xliff:g id="filename">%s</xliff:g> avant de poursuivre cette mise à jour.</string>
   <string name="confirm_delete_dialog_title">Supprimer le fichier</string>
   <string name="confirm_delete_dialog_title_tv">Cliquez pour supprimer les mises à jour téléchargées du stockage interne</string>
   <string name="confirm_delete_dialog_message">Supprimer le fichier de mise à jour sélectionné\u00A0?</string>

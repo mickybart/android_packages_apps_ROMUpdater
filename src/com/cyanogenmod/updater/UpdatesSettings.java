@@ -591,8 +591,9 @@ public class UpdatesSettings extends PreferenceActivity implements
         Collections.sort(updates, new Comparator<UpdateInfo>() {
             @Override
             public int compare(UpdateInfo lhs, UpdateInfo rhs) {
-                // sort in descending 'UI name' order (newest first)
-                return -lhs.getName().compareTo(rhs.getName());
+                // sort in descending 'Date' order (newest first)
+                long dateDiff = lhs.getDate() - rhs.getDate();
+                return (dateDiff == 0 ? 0 : (dateDiff < 0 ? +1 : -1));
             }
         });
 
@@ -875,6 +876,26 @@ public class UpdatesSettings extends PreferenceActivity implements
         }
 
         mStartUpdateVisible = true;
+        
+        //Check Dependency
+        if (!updateInfo.isDependsConfirmed()) {
+            //dialog content
+            String dialogBodyError = getString(R.string.depends_update_dialog_text, updateInfo.getDepends());
+            
+            // Display the error dialog
+            new AlertDialog.Builder(this)
+                .setTitle(R.string.depends_update_dialog_title)
+                .setMessage(dialogBodyError)
+                .setPositiveButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mStartUpdateVisible = false;
+                    }
+                })
+                .show();
+                
+            return;
+        }
         
         String bodyVariable = updateInfo.getName();
         if (!updateInfo.getWipeCache() && !updateInfo.getPostFlash()) {
