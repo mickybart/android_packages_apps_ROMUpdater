@@ -108,5 +108,5 @@
 
     <!-- redirect download to browser -->
     <string name="browser_redirect_dialog_title">Pobieranie ręczne</string>
-    <string name="browser_redirect_dialog_message">Z przyczyn technicznych nie można bezpośrednio pobrać pliku.\n\nOtworazymy teraz twoją przeglądarkę byś mógł zrobić to sam.\nGdy pobierzesz plik przenieś go do folderu romupdater i zainstaluj w aplikacji Uaktualnienia nAOSP.\n\nDzięki za zrozumienie.</string>
+    <string name="browser_redirect_dialog_message">Z przyczyn technicznych nie można bezpośrednio pobrać pliku.\n\nOtworazymy teraz twoją przeglądarkę byś mógł zrobić to sam.\n\nDzięki za zrozumienie.</string>
 </resources>

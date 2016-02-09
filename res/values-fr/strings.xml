@@ -84,5 +84,5 @@
   <string name="changelog_dialog_title">Note de version</string>
   <string name="loading_changelog">Chargement\u2026</string>
   <string name="browser_redirect_dialog_title">Téléchargement manuel</string>
-  <string name="browser_redirect_dialog_message">En raison de contrainte technique, nous ne pouvons pas télécharger directement le fichier.\n\nNous allons ouvrir votre navigateur pour vous permettre de le faire.\nUne fois téléchargé, vous pourrez le déplacer dans le dossier romupdater pour l\'installer via ROM Updater.\n\nMerci de votre compréhension.</string>
+  <string name="browser_redirect_dialog_message">En raison de contrainte technique, nous ne pouvons pas télécharger directement le fichier.\n\nNous allons ouvrir votre navigateur pour vous permettre de le faire.\n\nMerci de votre compréhension.</string>
 </resources>

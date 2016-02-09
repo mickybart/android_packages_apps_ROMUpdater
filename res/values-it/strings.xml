@@ -109,5 +109,5 @@
   
   <!-- redirect download to browser -->
     <string name="browser_redirect_dialog_title">Download manuale</string>
-    <string name="browser_redirect_dialog_message">A causa di problemi tecnici, non è possibile scaricare automaticamente il file.\n\nApriremo il tuo browser e dovrai scaricarlo in modo manuale.\nUna volta fatto, dovrai spostare il file nella cartella romupdater e quindi installarlo da ROM Updater.\n\nGrazie per la comprensione.</string>
+    <string name="browser_redirect_dialog_message">A causa di problemi tecnici, non è possibile scaricare automaticamente il file.\n\nApriremo il tuo browser e dovrai scaricarlo in modo manuale.\n\nGrazie per la comprensione.</string>
 </resources>

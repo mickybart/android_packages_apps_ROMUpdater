@@ -45,8 +45,7 @@ public class Utils {
     }
 
     public static File makeUpdateFolder() {
-        return new File(Environment.getExternalStorageDirectory().getAbsolutePath(),
-                Constants.UPDATES_FOLDER);
+        return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
     }
 
     public static void cancelNotification(Context context) {
@@ -149,13 +148,13 @@ public class Utils {
         /* Define update path */
 
         // Add the update folder/file name
-        String primaryStoragePath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        String primaryStoragePath = Utils.makeUpdateFolder().getAbsolutePath();
         // If data media rewrite the path to bypass the sd card fuse layer and trigger uncrypt
         String directPath = Environment.maybeTranslateEmulatedPathToInternal(
                 new File(primaryStoragePath)).getAbsolutePath();
         String updatePath = Environment.isExternalStorageEmulated() ? directPath :
                 primaryStoragePath;
-        String zipPath = updatePath + "/" + Constants.UPDATES_FOLDER + "/" + ui.getFileName();
+        String zipPath = updatePath + "/" + ui.getFileName();
 
         /* Backup, Custom Recovery ... */
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);

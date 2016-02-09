@@ -82,5 +82,5 @@
   <string name="changelog_dialog_title">Евиденција измена</string>
   <string name="loading_changelog">Учитавање\u2026</string>
   <string name="browser_redirect_dialog_title">Ручно преузимање</string>
-  <string name="browser_redirect_dialog_message">Због техничких ограничења не можемо преузети датотеку.\n\nОтворићемо браузер да би сте ви то урадили.\nПосле преузимања преместите датотеку у romupdater фолдер и инсталирајте је у ROM Updater-у.\n\nХвала на разумевању.</string>
+  <string name="browser_redirect_dialog_message">Због техничких ограничења не можемо преузети датотеку.\n\nОтворићемо браузер да би сте ви то урадили.\n\nХвала на разумевању.</string>
 </resources>

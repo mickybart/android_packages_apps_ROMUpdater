@@ -74,13 +74,11 @@ public class UpdatesSettings extends PreferenceActivity implements
     public static final String EXTRA_FINISHED_DOWNLOAD_INCREMENTAL_FOR = "download_incremental_for";
 
     public static final String KEY_SYSTEM_INFO = "system_info";
-    private static final String KEY_DELETE_ALL = "delete_all";
 
     private static final String UPDATES_CATEGORY = "updates_category";
 
     private static final int MENU_REFRESH = 0;
-    private static final int MENU_DELETE_ALL = 1;
-    private static final int MENU_SYSTEM_INFO = 2;
+    private static final int MENU_SYSTEM_INFO = 1;
 
     private static final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
 
@@ -189,8 +187,6 @@ public class UpdatesSettings extends PreferenceActivity implements
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
         if (preference == findPreference(KEY_SYSTEM_INFO)) {
             checkForUpdates();
-        } else if (preference == findPreference(KEY_DELETE_ALL)) {
-            confirmDeleteAll();
         }
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
@@ -201,9 +197,6 @@ public class UpdatesSettings extends PreferenceActivity implements
                 .setIcon(R.drawable.ic_menu_refresh)
                 .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS
                         | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-
-        menu.add(0, MENU_DELETE_ALL, 0, R.string.menu_delete_all)
-            .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
 
         menu.add(0, MENU_SYSTEM_INFO, 0, R.string.menu_system_info)
             .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
@@ -216,10 +209,6 @@ public class UpdatesSettings extends PreferenceActivity implements
         switch (item.getItemId()) {
             case MENU_REFRESH:
                 checkForUpdates();
-                return true;
-
-            case MENU_DELETE_ALL:
-                confirmDeleteAll();
                 return true;
 
             case MENU_SYSTEM_INFO:
@@ -576,16 +565,10 @@ public class UpdatesSettings extends PreferenceActivity implements
         for (UpdateInfo update : availableUpdates) {
             // Only add updates to the list that are not already downloaded
             if (existingFiles.contains(update.getFileName())) {
-                // remove it from the list
-                existingFiles.remove(update.getFileName());
                 // flush DownloadUrl (permit to go in DOWNLOADED state)
                 update.flushDownloadUrl();
             }
             updates.add(update);
-        }
-        // Add other files available under the update folder without information
-        for (String fileName : existingFiles) {
-            updates.add(new UpdateInfo.Builder().setFileName(fileName).build());
         }
 
         Collections.sort(updates, new Comparator<UpdateInfo>() {
@@ -787,40 +770,6 @@ public class UpdatesSettings extends PreferenceActivity implements
         sendBroadcast(intent);
 
         mUpdateHandler.post(mUpdateProgress);
-    }
-
-    private void confirmDeleteAll() {
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.confirm_delete_dialog_title)
-                .setMessage(R.string.confirm_delete_all_dialog_message)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // We are OK to delete, trigger it
-                        deleteOldUpdates();
-                        updateLayout();
-                    }
-                })
-                .setNegativeButton(R.string.dialog_cancel, null)
-                .show();
-    }
-
-    private boolean deleteOldUpdates() {
-        boolean success;
-        //mUpdateFolder: Foldername with fullpath of SDCARD
-        if (mUpdateFolder.exists() && mUpdateFolder.isDirectory()) {
-            deleteDir(mUpdateFolder);
-            mUpdateFolder.mkdir();
-            success = true;
-            Toast.makeText(this, R.string.delete_updates_success_message, Toast.LENGTH_SHORT).show();
-        } else if (!mUpdateFolder.exists()) {
-            success = false;
-            Toast.makeText(this, R.string.delete_updates_noFolder_message, Toast.LENGTH_SHORT).show();
-        } else {
-            success = false;
-            Toast.makeText(this, R.string.delete_updates_failure_message, Toast.LENGTH_SHORT).show();
-        }
-        return success;
     }
 
     private static boolean deleteDir(File dir) {

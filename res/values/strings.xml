@@ -113,5 +113,5 @@
 
     <!-- redirect download to browser -->
     <string name="browser_redirect_dialog_title">Manual download</string>
-    <string name="browser_redirect_dialog_message">Due to technical constraint, we can\'t direct download the file.\n\nWe will open your browser to permit you to do it.\nOnce done, you can move the file into romupdater folder and install it in ROM Updater.\n\nThanks for your understanding.</string>
+    <string name="browser_redirect_dialog_message">Due to technical constraint, we can\'t direct download the file.\n\nWe will open your browser to permit you to do it.\n\nThanks for your understanding.</string>
 </resources>
