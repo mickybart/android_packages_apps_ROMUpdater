@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:settings="http://schemas.android.com/apk/res/com.android.settings"
+	android:title="@string/custom_recovery_title">
+	
+    <PreferenceCategory
+        android:key="flashable_zip_files"
+        android:title="@string/install_zip_files"
+        android:persistent="false">
+    </PreferenceCategory>
+    <Preference
+        android:icon="@drawable/ic_plus"
+        android:key="add_zip"
+        android:title=" " />
+
+    <EditTextPreference
+        android:key="pref_custom_recovery"
+        android:title="@string/custom_recovery_aditional"
+        android:summary="@string/custom_recovery_aditional_summary"
+        android:singleLine="false"
+        android:hint="@string/custom_recovery_aditional_hint"
+        android:minLines="3"
+        android:gravity="top"
+        android:defaultValue=""
+        android:persistent="true" />
+
+    <PreferenceCategory
+        android:key="links_category"
+        android:title="@string/useful_links">
+
+        <Preference
+            android:key="link_open_gapps"
+            android:title="@string/link_open_gapps">
+            <intent android:action="android.intent.action.VIEW"
+                    android:data="http://opengapps.org/" />
+        </Preference>
+        <Preference
+            android:key="link_xposed"
+            android:title="@string/link_xposed">
+            <intent android:action="android.intent.action.VIEW"
+                    android:data="http://forum.xda-developers.com/showthread.php?t=3034811" />
+        </Preference>
+        <Preference
+            android:key="link_supersu"
+            android:title="@string/link_supersu">
+            <intent android:action="android.intent.action.VIEW"
+                    android:data="http://forum.xda-developers.com/apps/supersu" />
+        </Preference>
+    </PreferenceCategory>
+    
+</PreferenceScreen>

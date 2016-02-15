@@ -1,0 +1,54 @@
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:gravity="center_vertical"
+    android:paddingStart="@*android:dimen/preference_item_padding_side">
+
+    <LinearLayout
+        android:id="@+id/updates_pref"
+        android:layout_width="0dip"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:paddingStart="8dip"
+        android:gravity="center_vertical"
+        android:clickable="true"
+        android:focusable="true"
+        android:baselineAligned="false"
+        android:background="?android:attr/selectableItemBackground">
+
+        <RelativeLayout
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dip"
+            android:layout_marginTop="6dip"
+            android:layout_marginBottom="6dip"
+            android:layout_weight="1">
+    
+            <TextView
+                android:id="@+android:id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:fadingEdge="horizontal"
+                android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                android:textColor="?android:attr/textColorPrimary" />
+
+        </RelativeLayout>
+    </LinearLayout>
+    
+    <ImageView
+        android:id="@+id/cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingStart="15dip"
+        android:paddingEnd="?android:attr/scrollbarSize"
+        android:src="@drawable/ic_tab_cancel"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground" />
+    
+</LinearLayout>    

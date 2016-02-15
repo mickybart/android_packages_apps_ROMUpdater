@@ -159,7 +159,7 @@ public class Utils {
         /* Backup, Custom Recovery ... */
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean needBackup = prefs.getBoolean(Constants.BACKUP_PREF, true);
-        String customRecovery = prefs.getString(Constants.CUSTOM_RECOVERY_PREF, "");
+        String customRecovery = getCustomRecoveryFromPrefs(prefs);
 
         /* Generate the script */
 
@@ -173,6 +173,22 @@ public class Utils {
         SystemProperties.set(Constants.REBOOT_FLASH_PROPERTY, "true");
         PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         powerManager.reboot("recovery");
+    }
+
+    public static String getCustomRecoveryFromPrefs(SharedPreferences prefs) {
+        StringBuilder sb = new StringBuilder();
+        String zipFiles = prefs.getString(Constants.ZIP_FILES_PREF, null);
+        if (zipFiles != null && !zipFiles.isEmpty()) {
+            String [] filePaths =  zipFiles.split("\\|");
+            for(String filePath: filePaths) {
+                for (String [] replacement : Constants.FILE_PATH_REPLACEMENTS) {
+                    filePath = filePath.replace(replacement[0], replacement[1]);
+                }
+                sb.append("install ").append(filePath).append('\n');
+            }
+        }
+        sb.append(prefs.getString(Constants.CUSTOM_RECOVERY_PREF, ""));
+        return sb.toString();
     }
 
     private static void updateByDefault(String zipPath, boolean needBackup) throws IOException {

@@ -22,6 +22,13 @@ public class Constants {
     public static final String LAST_UPDATE_CHECK_PREF = "pref_last_update_check";
     public static final String BACKUP_PREF = "pref_enable_backup";
     public static final String CUSTOM_RECOVERY_PREF = "pref_custom_recovery";
+    public static final String ZIP_FILES_PREF = "pref_zip_files";
+
+    //file path replacements so that files can be accessible from recovery
+    public static final String[][] FILE_PATH_REPLACEMENTS = {
+        {"/sdcard/", "/data/media/0/"},
+        {"/storage/emulated/0/", "/data/media/0/"}
+    };
 
     // Update Check items
     public static final String BOOT_CHECK_COMPLETED = "boot_check_completed";

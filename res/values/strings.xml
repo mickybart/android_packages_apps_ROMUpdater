@@ -51,6 +51,16 @@
     <string name="custom_recovery_title">Post update</string>
     <string name="custom_recovery_summary">Flash GApps, SuperSU, Xposed, etc</string>
     <string name="custom_recovery_hint">OpenRecoveryScript:\ninstall /data/media/0/gapps.zip\ninstall ...\nreboot\n</string>
+    <string name="custom_recovery_aditional">Aditional script</string>
+    <string name="custom_recovery_aditional_summary">OpenRecoveryScript commands</string>
+    <string name="custom_recovery_aditional_hint">OpenRecoveryScript:\ncmd chmod 755 /system/...\nreboot\n</string>
+
+    <string name="install_zip_files">Install zip files</string>
+    <string name="remove_zip_file">Remove %1$s from flashing list?</string>
+    <string name="useful_links">Useful links</string>
+    <string name="link_open_gapps">Open GApps</string>
+    <string name="link_xposed">Xposed</string>
+    <string name="link_supersu">SuperSU</string>
 
     <!-- Update checking -->
     <string name="checking_for_updates">Checking for updates</string>

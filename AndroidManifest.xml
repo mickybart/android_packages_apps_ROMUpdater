@@ -52,6 +52,12 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".PostUpdateSettings"
+            android:label="@string/custom_recovery_title"
+            android:parentActivityName=".UpdatesSettings">
+        </activity>
+
         <service android:name="com.cyanogenmod.updater.service.UpdateCheckService" />
         <service android:name="com.cyanogenmod.updater.service.DownloadService" />
         <service android:name="com.cyanogenmod.updater.service.DownloadCompleteIntentService" />

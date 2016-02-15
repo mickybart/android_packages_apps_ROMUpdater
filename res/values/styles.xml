@@ -24,6 +24,10 @@
         <item name="android:layout">@layout/preference_updates</item>
     </style>
 
+    <style name="FlashableZipPreferenceStyle">
+        <item name="android:layout">@layout/preference_flashable_zip</item>
+    </style>
+
     <style name="Theme.ActionBar.SubSettings" parent="@android:style/Widget.Material.Light.ActionBar.Solid">
         <item name="android:contentInsetStart">@dimen/actionbar_subsettings_contentInsetStart</item>
     </style>
