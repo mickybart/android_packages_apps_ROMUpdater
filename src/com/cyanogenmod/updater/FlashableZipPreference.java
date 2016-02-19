@@ -6,54 +6,68 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.cyanogenmod.updater.misc.FlashableZip;
+
 public class FlashableZipPreference extends Preference {
-	
-	public interface OnActionListener {
-		void onZipRemove(FlashableZipPreference pref);
-	}
-	
-	private OnActionListener mOnActionListener;
-	
-	private String filePath;
-	private String fileName;
-	private TextView mTitleText;
-	private ImageView mCancelButton;
-	
-	public FlashableZipPreference(Context context, String filePath) {
+    public interface OnActionListener {
+        void onZipRemove(FlashableZipPreference pref);
+        void onZipEdit(FlashableZipPreference pref);
+    }
+
+    private OnActionListener mOnActionListener;
+
+    private int index;
+    private FlashableZip flashableZip;
+
+    private TextView mTitleText;
+    private ImageView mCancelButton;
+
+    public FlashableZipPreference(Context context, int index, FlashableZip flashableZip) {
         super(context, null, R.style.FlashableZipPreferenceStyle);
         setLayoutResource(R.layout.preference_flashable_zip);
-        this.filePath = filePath;
-        this.fileName = filePath.substring(filePath.lastIndexOf('/')+1);
+
+        this.index = index;
+        this.flashableZip = flashableZip;
     }
-	
-	@Override
+
+    @Override
     protected void onBindView(View view) {
         super.onBindView(view);
-        
+
         mTitleText = (TextView)view.findViewById(android.R.id.title);
         mCancelButton = (ImageView)view.findViewById(R.id.cancel_button);
-        
-        mTitleText.setText(fileName);
+
+        mTitleText.setText(flashableZip.getFileName());
         mTitleText.setVisibility(View.VISIBLE);
+
+        mTitleText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnActionListener != null) {
+                    mOnActionListener.onZipEdit(FlashableZipPreference.this);
+                }
+            }
+        });
         mCancelButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (mOnActionListener != null) {
-					mOnActionListener.onZipRemove(FlashableZipPreference.this);
-				}
-			}
-		});
-	}
-	
-	public void setOnActionListener(OnActionListener listener) {
+            @Override
+            public void onClick(View v) {
+                if (mOnActionListener != null) {
+                    mOnActionListener.onZipRemove(FlashableZipPreference.this);
+                }
+            }
+        });
+    }
+
+    public void setOnActionListener(OnActionListener listener) {
         mOnActionListener = listener;
     }
-	
-	public String getFilePath() {
-		return filePath;
-	}
-	
-	public String getFileName() {
-		return fileName;
-	}
+
+    public int getIndex() {
+        return index;
+    }
+
+    public FlashableZip getFlashableZip() {
+        return flashableZip;
+    }
 }
+

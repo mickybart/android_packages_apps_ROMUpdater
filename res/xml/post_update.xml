@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:settings="http://schemas.android.com/apk/res/com.android.settings"
@@ -7,8 +6,7 @@
 	
     <PreferenceCategory
         android:key="flashable_zip_files"
-        android:title="@string/install_zip_files"
-        android:persistent="false">
+	    android:title="@string/install_zip_files">
     </PreferenceCategory>
     <Preference
         android:icon="@drawable/ic_plus"
@@ -26,6 +24,11 @@
         android:defaultValue=""
         android:persistent="true" />
 
+    <Preference
+        android:key="script_preview"
+        android:title="@string/script_preview"
+        android:summary="@string/script_preview_summary"/>
+
     <PreferenceCategory
         android:key="links_category"
         android:title="@string/useful_links">
@@ -34,7 +37,7 @@
             android:key="link_open_gapps"
             android:title="@string/link_open_gapps">
             <intent android:action="android.intent.action.VIEW"
-                    android:data="http://opengapps.org/" />
+                    android:data="http://opengapps.org/?arch=arm&amp;api=6.0&amp;variant=mini" />
         </Preference>
         <Preference
             android:key="link_xposed"
@@ -49,5 +52,4 @@
                     android:data="http://forum.xda-developers.com/apps/supersu" />
         </Preference>
     </PreferenceCategory>
-    
 </PreferenceScreen>

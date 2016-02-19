@@ -26,8 +26,9 @@ public class Constants {
 
     //file path replacements so that files can be accessible from recovery
     public static final String[][] FILE_PATH_REPLACEMENTS = {
-        {"/sdcard/", "/data/media/0/"},
-        {"/storage/emulated/0/", "/data/media/0/"}
+        {"/storage/emulated/0/", "/sdcard/"}
+        //{"/sdcard/", "/data/media/0/"},
+        //{"/storage/emulated/0/", "/data/media/0/"}
     };
 
     // Update Check items

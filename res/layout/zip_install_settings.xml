@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/before_install"
+        android:textColor="?android:attr/colorAccent"
+    />
+
+    <EditText
+        android:id="@+id/beforeInstall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/script_hint"
+        android:inputType="textMultiLine"
+        android:lines="3" >
+
+    </EditText>
+    
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="16dp" />
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/zip_file"
+        android:textColor="?android:attr/colorAccent"
+    />
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?android:attr/listPreferredItemHeight"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        
+        <TextView
+            android:id="@+id/zipFileName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:singleLine="false"
+            android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+            android:textColor="?android:attr/textColorPrimary"/>
+        
+        <ImageView
+            android:id="@+id/openFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="15dip"
+            android:paddingEnd="0dip"
+            android:src="@drawable/ic_folder"            
+            android:clickable="true"
+            android:focusable="true"/>
+    </LinearLayout>
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/after_install"
+        android:textColor="?android:attr/colorAccent"
+    />
+    <EditText
+        android:id="@+id/afterInstall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/script_hint"
+        android:inputType="textMultiLine"
+        android:lines="3" >
+    </EditText>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="16dp" />
+
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    
+       <ImageView
+            android:id="@+id/upButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingStart="15dip"
+            android:paddingEnd="15dip"
+            android:src="@drawable/ic_up"
+            android:layout_gravity="start"
+            android:clickable="true"
+            android:focusable="true"/>
+       
+       <ImageView
+            android:id="@+id/downButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingStart="15dip"
+            android:paddingEnd="15dip"
+            android:src="@drawable/ic_down"
+            android:layout_gravity="start"
+            android:clickable="true"
+            android:focusable="true"/>
+       
+       <LinearLayout 
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end">
+       
+           <ImageView
+                android:id="@+id/okButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingStart="15dip"
+                android:paddingEnd="15dip"
+                android:src="@drawable/ic_yes"
+                android:layout_gravity="end"
+                android:clickable="true"
+                android:focusable="true"/>
+       </LinearLayout>
+       
+    </LinearLayout>
+
+</LinearLayout>

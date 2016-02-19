@@ -10,6 +10,8 @@
 
 package com.cyanogenmod.updater.utils;
 
+import java.util.ArrayList;
+import java.util.List;
 import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -32,12 +34,16 @@ import android.util.Log;
 
 import com.cyanogenmod.updater.R;
 import com.cyanogenmod.updater.misc.Constants;
+import com.cyanogenmod.updater.misc.FlashableZip;
 import com.cyanogenmod.updater.service.UpdateCheckService;
 import com.cyanogenmod.updater.misc.UpdateInfo;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 public class Utils {
     private Utils() {
@@ -159,7 +165,7 @@ public class Utils {
         /* Backup, Custom Recovery ... */
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean needBackup = prefs.getBoolean(Constants.BACKUP_PREF, true);
-        String customRecovery = getCustomRecoveryFromPrefs(prefs);
+        String customRecovery = getPostUpdateScript(prefs);
 
         /* Generate the script */
 
@@ -173,22 +179,6 @@ public class Utils {
         SystemProperties.set(Constants.REBOOT_FLASH_PROPERTY, "true");
         PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         powerManager.reboot("recovery");
-    }
-
-    public static String getCustomRecoveryFromPrefs(SharedPreferences prefs) {
-        StringBuilder sb = new StringBuilder();
-        String zipFiles = prefs.getString(Constants.ZIP_FILES_PREF, null);
-        if (zipFiles != null && !zipFiles.isEmpty()) {
-            String [] filePaths =  zipFiles.split("\\|");
-            for(String filePath: filePaths) {
-                for (String [] replacement : Constants.FILE_PATH_REPLACEMENTS) {
-                    filePath = filePath.replace(replacement[0], replacement[1]);
-                }
-                sb.append("install ").append(filePath).append('\n');
-            }
-        }
-        sb.append(prefs.getString(Constants.CUSTOM_RECOVERY_PREF, ""));
-        return sb.toString();
     }
 
     private static void updateByDefault(String zipPath, boolean needBackup) throws IOException {
@@ -280,4 +270,45 @@ public class Utils {
         PackageManager packageManager = context.getPackageManager();
         return packageManager.hasSystemFeature(PackageManager.FEATURE_LEANBACK);
     }
+
+    public static String getPostUpdateScript(SharedPreferences prefs) {
+        StringBuilder sb = new StringBuilder();
+        try {
+            List<FlashableZip> zipFiles = loadZipFiles(prefs);
+            for(FlashableZip zipFile: zipFiles) {
+                if (!zipFile.getBeforeInstall().isEmpty()) {
+                    sb.append(zipFile.getBeforeInstall()).append('\n');
+                }
+                sb.append("install ").append(zipFile.getConvertedPath()).append('\n');
+                if (!zipFile.getAfterInstall().isEmpty()) {
+                    sb.append(zipFile.getAfterInstall()).append('\n');
+                }
+            }
+            sb.append(prefs.getString(Constants.CUSTOM_RECOVERY_PREF, ""));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sb.toString();
+    }
+
+    public static void storeZipFiles(SharedPreferences prefs, List<FlashableZip> zipList) throws JSONException {
+        JSONArray zipFilesArray = new JSONArray();
+        for(FlashableZip zip: zipList) {
+            zipFilesArray.put(zip.toJSON());
+        }
+        prefs.edit().putString(Constants.ZIP_FILES_PREF, zipFilesArray.toString()).apply();
+    }
+
+    public static List<FlashableZip> loadZipFiles(SharedPreferences prefs) throws JSONException {
+        List<FlashableZip> zipList = new ArrayList<FlashableZip>();
+        String zipFiles = prefs.getString(Constants.ZIP_FILES_PREF, null);
+        if (zipFiles != null) {
+            JSONArray zipFilesArray = new JSONArray(zipFiles);
+            for(int i=0; i<zipFilesArray.length(); i++) {
+                zipList.add(new FlashableZip(zipFilesArray.getJSONObject(i)));
+            }
+        }
+        return zipList;
+    }
 }
+
