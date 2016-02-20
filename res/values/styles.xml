@@ -32,4 +32,8 @@
         <item name="android:contentInsetStart">@dimen/actionbar_subsettings_contentInsetStart</item>
     </style>
 
+    <style name="TextAppearance.ScriptBody" parent="@android:style/TextAppearance.Material.Body1">
+        <item name="android:fontFamily">monospace</item>
+    </style>
+
 </resources>

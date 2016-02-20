@@ -17,18 +17,18 @@
 
     <EditText
         android:id="@+id/beforeInstall"
+        android:textAppearance="@style/TextAppearance.ScriptBody"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/script_hint"
         android:inputType="textMultiLine"
-        android:lines="3" >
-
+        android:minLines="2" >
     </EditText>
     
     <Space
         android:layout_width="match_parent"
-        android:layout_height="16dp" />
+        android:layout_height="4dp" />
     
     <TextView
         android:layout_width="match_parent"
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="15dip"
             android:paddingEnd="0dip"
-            android:src="@drawable/ic_folder"            
+            android:src="@drawable/ic_folder"
             android:clickable="true"
             android:focusable="true"/>
     </LinearLayout>
@@ -72,17 +72,18 @@
     />
     <EditText
         android:id="@+id/afterInstall"
+        android:textAppearance="@style/TextAppearance.ScriptBody"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/script_hint"
         android:inputType="textMultiLine"
-        android:lines="3" >
+        android:minLines="2" >
     </EditText>
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="16dp" />
+        android:layout_height="8dp" />
 
     <LinearLayout 
         android:layout_width="match_parent"
@@ -92,7 +93,7 @@
        <ImageView
             android:id="@+id/upButton"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:paddingStart="15dip"
             android:paddingEnd="15dip"
             android:src="@drawable/ic_up"
@@ -103,7 +104,7 @@
        <ImageView
             android:id="@+id/downButton"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:paddingStart="15dip"
             android:paddingEnd="15dip"
             android:src="@drawable/ic_down"
@@ -111,23 +112,27 @@
             android:clickable="true"
             android:focusable="true"/>
        
-       <LinearLayout 
+       <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="end">
        
-           <ImageView
-                android:id="@+id/okButton"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:paddingStart="15dip"
-                android:paddingEnd="15dip"
-                android:src="@drawable/ic_yes"
-                android:layout_gravity="end"
-                android:clickable="true"
-                android:focusable="true"/>
-       </LinearLayout>
+           <TextView
+               android:id="@+id/okButton"
+               android:text="@android:string/ok"
+               android:textAppearance="@android:style/TextAppearance.Material.Button"
+               android:textColor="?android:attr/colorAccent"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:paddingStart="15dip"
+               android:paddingEnd="15dip"
+               android:clickable="true"
+               android:focusable="true"
+               android:layout_centerVertical="true"
+               android:layout_alignParentEnd="true"
+           />
+       </RelativeLayout>
        
     </LinearLayout>
 

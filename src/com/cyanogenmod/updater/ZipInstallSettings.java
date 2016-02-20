@@ -20,7 +20,7 @@ import com.cyanogenmod.updater.utils.FileUtils;
 import com.cyanogenmod.updater.utils.Utils;
 
 public class ZipInstallSettings extends Activity implements View.OnClickListener {
-    private static final String TAG = "ZipInstallSettings";    
+    private static final String TAG = "ZipInstallSettings";
     private static final int REQUEST_GET_FILE = 1001;
     
     private SharedPreferences mPrefs;
@@ -33,7 +33,7 @@ public class ZipInstallSettings extends Activity implements View.OnClickListener
     private ImageView mOpenFile;
     private ImageView mUpButton;
     private ImageView mDownButton;
-    private ImageView mOKButton;
+    private View mOKButton;
     
     private EditText mBeforeInstall;
     private EditText mAfterInstall;
@@ -58,7 +58,7 @@ public class ZipInstallSettings extends Activity implements View.OnClickListener
             mOpenFile = (ImageView)findViewById(R.id.openFile);
             mUpButton = (ImageView)findViewById(R.id.upButton);
             mDownButton = (ImageView)findViewById(R.id.downButton);
-            mOKButton = (ImageView)findViewById(R.id.okButton);
+            mOKButton = findViewById(R.id.okButton);
             
             mOpenFile.setOnClickListener(this);
             mUpButton.setOnClickListener(this);
@@ -66,7 +66,7 @@ public class ZipInstallSettings extends Activity implements View.OnClickListener
             mOKButton.setOnClickListener(this);
             enableDisableButtons();
             
-            mBeforeInstall = (EditText)findViewById(R.id.beforeInstall);            
+            mBeforeInstall = (EditText)findViewById(R.id.beforeInstall);
             mAfterInstall = (EditText)findViewById(R.id.afterInstall);
             mBeforeInstall.setText(mZip.getBeforeInstall());
             mAfterInstall.setText(mZip.getAfterInstall());
@@ -148,7 +148,7 @@ public class ZipInstallSettings extends Activity implements View.OnClickListener
             Utils.storeZipFiles(mPrefs, mZipList);
         } catch (Exception e) {
             Log.e(TAG, "Error updating zip context", e);
-        }        
+        }
         super.finish();
     }
 }

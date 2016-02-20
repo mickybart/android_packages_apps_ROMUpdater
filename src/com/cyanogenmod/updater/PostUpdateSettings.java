@@ -3,6 +3,7 @@ package com.cyanogenmod.updater;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -34,14 +35,11 @@ public class PostUpdateSettings extends PreferenceActivity  implements Flashable
     public static final String KEY_SCRIPT_PREVIEW = "script_preview";
     
     private static final int REQUEST_GET_ZIP = 1001;
-    private static final int REQUEST_ZIP_SETTINGS = 1002;
 
     private SharedPreferences mPrefs;
 
     private PreferenceCategory mZipFiles;
     private List<FlashableZip> mZipList;
-
-    boolean mUpdateZipFilesOnPrefChange = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,17 +94,11 @@ public class PostUpdateSettings extends PreferenceActivity  implements Flashable
                 String filePath = FileUtils.getPath(this, uri);
                 FlashableZip zip = new FlashableZip(filePath);
                 mZipList.add(zip);
-                FlashableZipPreference flashableZipPreference = new FlashableZipPreference(this, mZipList.size() - 1, zip);
-                flashableZipPreference.setOnActionListener(this);
-                mZipFiles.addPreference(flashableZipPreference);
                 Utils.storeZipFiles(mPrefs, mZipList);
-                displayZipSettings(flashableZipPreference);
+                displayZipSettings(mZipList.size() - 1);
             } catch (Exception e) {
                 Log.e(TAG, "Error adding file", e);
             }
-        } else if (requestCode == REQUEST_ZIP_SETTINGS) {
-            Log.d(TAG, "Zip Settings finished");
-            mUpdateZipFilesOnPrefChange = false;
         }
     }
 
@@ -119,7 +111,6 @@ public class PostUpdateSettings extends PreferenceActivity  implements Flashable
             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     mZipList.remove(pref.getIndex());
-                    mZipFiles.removePreference(pref);
                     try {
                         Utils.storeZipFiles(mPrefs, mZipList);
                     } catch (Exception e) {
@@ -131,15 +122,14 @@ public class PostUpdateSettings extends PreferenceActivity  implements Flashable
 
     @Override
     public void onZipEdit(final FlashableZipPreference pref) {
-        displayZipSettings(pref);
+        displayZipSettings(pref.getIndex());
             }
 
-    private void displayZipSettings(final FlashableZipPreference pref) {
-        mUpdateZipFilesOnPrefChange = true;
+    private void displayZipSettings(int index) {
         Log.d(TAG, "About to invoke Zip Settings");
         Intent intent = new Intent(this, ZipInstallSettings.class);
-        intent.putExtra("index", pref.getIndex());
-        startActivityForResult(intent, REQUEST_ZIP_SETTINGS);
+        intent.putExtra("index", index);
+        startActivity(intent);
     }
 
     private void restoreZipFilesPreference() {
@@ -157,6 +147,7 @@ public class PostUpdateSettings extends PreferenceActivity  implements Flashable
         }
     }
 
+    @SuppressLint("NewApi")
     private void previewPostUpdate() {
         String script = Utils.getPostUpdateScript(mPrefs);
         script = script.replaceAll("\\n", "\n\n");
@@ -166,13 +157,17 @@ public class PostUpdateSettings extends PreferenceActivity  implements Flashable
             .setPositiveButton(android.R.string.ok, null)
             .show();
         TextView textView = (TextView) dialog.findViewById(android.R.id.message);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
-        textView.setTypeface(Typeface.MONOSPACE);
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+            textView.setTextAppearance(R.style.TextAppearance_ScriptBody);
+        } else {
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+            textView.setTypeface(Typeface.MONOSPACE);
+        }
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (mUpdateZipFilesOnPrefChange && Constants.ZIP_FILES_PREF.equals(key)) {
+        if (Constants.ZIP_FILES_PREF.equals(key)) {
             restoreZipFilesPreference();
         }
     }
