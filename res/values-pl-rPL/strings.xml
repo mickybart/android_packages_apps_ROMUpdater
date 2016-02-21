@@ -8,7 +8,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- General strings -->
     <string name="app_name">Uaktualnienia ROM</string>
-    <string name="display_name">Uaktualnij</string>
+    <string name="display_name">Aktualizacje ROM</string>
     <string name="unknown">Nieznane</string>
 
     <!-- Menu and dialog box strings -->
@@ -27,13 +27,13 @@
     <string name="no_available_updates_intro">Podczas ostatniego wyszukiwania nie znaleziono żadnych uaktualnień. Aby ręcznie sprawdzić ich dostępność użyj przycisku Odśwież.</string>
     <string name="no_available_updates_intro_tv">The last check did not find any available updates. To manually check for new updates, click \'System information\'.</string>
     <string name="new_update_summary">Nowe</string>
-    <string name="old_update_summary">Stare</string>
+    <string name="old_update_summary">Starsza wersja</string>
     <string name="downloaded_update_summary">Pobrane</string>
     <string name="lost_downloaded_update_summary">Niewspierane</string>
     <string name="installed_update_summary">Zainstalowane</string>
 
     <string name="update_check_title">Sprawdź dostępność uaktualnień</string>
-    <string name="check_manual">Ręczne</string>
+    <string name="check_manual">Ręcznie</string>
     <string name="check_on_boot">Przy każdym uruchomieniu systemu</string>
     <string name="check_twice_daily">Dwa razy dziennie</string>
     <string name="check_daily">Raz dziennie</string>
@@ -98,12 +98,12 @@
     <!-- System info strings -->
     <string name="sysinfo_device">Model:</string>
     <string name="sysinfo_running">Na pokładzie:</string>
-    <string name="sysinfo_update_channel">Kanał poprawekl:</string>
+    <string name="sysinfo_update_channel">Kanał poprawek:</string>
     <string name="sysinfo_last_check">Ostatnio sprawdzane:</string>
 
     <!-- changelog strings -->
     <string name="no_changelog_alert">Brak changeloga</string>
-    <string name="changelog_dialog_title">Changelog</string>
+    <string name="changelog_dialog_title">Lista zmian</string>
     <string name="loading_changelog">Wczytywanie\u2026</string>
 
     <!-- redirect download to browser -->
