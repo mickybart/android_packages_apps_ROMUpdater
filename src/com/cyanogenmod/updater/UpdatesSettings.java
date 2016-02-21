@@ -74,6 +74,7 @@ public class UpdatesSettings extends PreferenceActivity implements
     public static final String EXTRA_FINISHED_DOWNLOAD_INCREMENTAL_FOR = "download_incremental_for";
 
     public static final String KEY_SYSTEM_INFO = "system_info";
+    public static final String KEY_CUSTOM_RECOVERY = "custom_recovery";
 
     private static final String UPDATES_CATEGORY = "updates_category";
 
@@ -185,8 +186,14 @@ public class UpdatesSettings extends PreferenceActivity implements
 
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
-        if (preference == findPreference(KEY_SYSTEM_INFO)) {
+        String preferenceKey = preference.getKey();
+        if (KEY_SYSTEM_INFO.equals(preferenceKey)) {
             checkForUpdates();
+            return true;
+        } else if (KEY_CUSTOM_RECOVERY.equals(preferenceKey)) {
+            Intent intent = new Intent(this, PostUpdateSettings.class);
+            startActivity(intent);
+            return true;
         }
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }

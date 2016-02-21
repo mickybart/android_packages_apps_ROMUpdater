@@ -50,7 +50,27 @@
     <!-- Custom Recovery -->
     <string name="custom_recovery_title">Post update</string>
     <string name="custom_recovery_summary">Flash GApps, SuperSU, Xposed, etc</string>
-    <string name="custom_recovery_hint">OpenRecoveryScript:\ninstall /data/media/0/gapps.zip\ninstall ...\nreboot\n</string>
+    <string name="custom_recovery_hint">OpenRecoveryScript:\ninstall /data/media/0/gapps.zip\ninstall &#8230;\nreboot\n</string>
+    <string name="custom_recovery_aditional">Aditional script</string>
+    <string name="custom_recovery_aditional_summary">OpenRecoveryScript commands</string>
+    <string name="custom_recovery_aditional_hint">OpenRecoveryScript:\nmount /system\ncmd chmod 755 /system/&#8230;\nreboot\n</string>
+
+    <string name="install_zip_files">Install zip files</string>
+    <string name="remove_zip_file">Remove %1$s from flashing list?</string>
+    <string name="useful_links">Useful links</string>
+    <string name="link_open_gapps">Open GApps</string>
+    <string name="link_xposed">Xposed</string>
+    <string name="link_supersu">SuperSU</string>
+
+    <string name="before_install">Before install</string>
+    <string name="after_install">After install</string>
+    <string name="script_hint">OpenRecoveryScript &#8230;</string>
+    <string name="zip_file">Install zip file</string>
+    <string name="move_up">Move Up</string>
+    <string name="move_down">Move Down</string>
+    <string name="script_preview">Preview</string>
+    <string name="script_preview_summary">View generated post update script</string>
+    <string name="script_preview_dlg_title">Post update script</string>
 
     <!-- Update checking -->
     <string name="checking_for_updates">Checking for updates</string>
