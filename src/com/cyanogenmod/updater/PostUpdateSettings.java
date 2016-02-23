@@ -147,7 +147,6 @@ public class PostUpdateSettings extends PreferenceActivity  implements Flashable
         }
     }
 
-    @SuppressLint("NewApi")
     private void previewPostUpdate() {
         String script = Utils.getPostUpdateScript(mPrefs);
         script = script.replaceAll("\\n", "\n\n");
@@ -157,12 +156,7 @@ public class PostUpdateSettings extends PreferenceActivity  implements Flashable
             .setPositiveButton(android.R.string.ok, null)
             .show();
         TextView textView = (TextView) dialog.findViewById(android.R.id.message);
-        if (android.os.Build.VERSION.SDK_INT >= 23) {
-            textView.setTextAppearance(R.style.TextAppearance_ScriptBody);
-        } else {
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-            textView.setTypeface(Typeface.MONOSPACE);
-        }
+        textView.setTextAppearance(this, R.style.TextAppearance_ScriptBody);
     }
 
     @Override
