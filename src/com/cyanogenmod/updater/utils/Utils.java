@@ -178,7 +178,7 @@ public class Utils {
         }
 
         // Trigger the reboot
-        SystemProperties.set(Constants.REBOOT_FLASH_PROPERTY, "true");
+        //SystemProperties.set(Constants.REBOOT_FLASH_PROPERTY, "true");
         PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         powerManager.reboot("recovery");
     }
