@@ -24,13 +24,6 @@ public class Constants {
     public static final String CUSTOM_RECOVERY_PREF = "pref_custom_recovery";
     public static final String ZIP_FILES_PREF = "pref_zip_files";
 
-    //file path replacements so that files can be accessible from recovery
-    public static final String[][] FILE_PATH_REPLACEMENTS = {
-        {"/storage/emulated/0/", "/sdcard/"}
-        //{"/sdcard/", "/data/media/0/"},
-        //{"/storage/emulated/0/", "/data/media/0/"}
-    };
-
     // Update Check items
     public static final String BOOT_CHECK_COMPLETED = "boot_check_completed";
     public static final int UPDATE_FREQ_AT_BOOT = -1;

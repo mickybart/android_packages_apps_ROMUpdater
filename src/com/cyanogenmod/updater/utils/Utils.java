@@ -53,6 +53,15 @@ public class Utils {
     public static File makeUpdateFolder() {
         return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
     }
+    
+    public static String getRecoveryPath(String primaryStoragePath) {
+        if (Environment.isExternalStorageEmulated())
+            // data media rewrite the path to bypass the sd card fuse layer and trigger uncrypt
+            return Environment.maybeTranslateEmulatedPathToInternal(
+                new File(primaryStoragePath)).getAbsolutePath();
+        else
+            return primaryStoragePath;
+    }
 
     public static void cancelNotification(Context context) {
         final NotificationManager nm =
@@ -152,14 +161,7 @@ public class Utils {
         boolean isUseOpenRecoveryScript = context.getResources().getBoolean(R.bool.conf_use_openrecoveryscript);
 
         /* Define update path */
-
-        // Add the update folder/file name
-        String primaryStoragePath = Utils.makeUpdateFolder().getAbsolutePath();
-        // If data media rewrite the path to bypass the sd card fuse layer and trigger uncrypt
-        String directPath = Environment.maybeTranslateEmulatedPathToInternal(
-                new File(primaryStoragePath)).getAbsolutePath();
-        String updatePath = Environment.isExternalStorageEmulated() ? directPath :
-                primaryStoragePath;
+        String updatePath = Utils.getRecoveryPath(Utils.makeUpdateFolder().getAbsolutePath());
         String zipPath = updatePath + "/" + ui.getFileName();
 
         /* Backup, Custom Recovery ... */
@@ -279,7 +281,7 @@ public class Utils {
                 if (!zipFile.getBeforeInstall().isEmpty()) {
                     sb.append(zipFile.getBeforeInstall()).append('\n');
                 }
-                sb.append("install ").append(zipFile.getConvertedPath()).append('\n');
+                sb.append("install ").append(Utils.getRecoveryPath(zipFile.getFilePath())).append('\n');
                 if (!zipFile.getAfterInstall().isEmpty()) {
                     sb.append(zipFile.getAfterInstall()).append('\n');
                 }

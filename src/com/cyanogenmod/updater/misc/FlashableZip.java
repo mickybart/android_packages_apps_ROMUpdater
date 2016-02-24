@@ -25,14 +25,6 @@ public class FlashableZip {
     public String getFilePath() {
         return filePath;
     }
-    
-    public String getConvertedPath() {
-        String convertedPath = filePath;
-        for (String [] replacement : Constants.FILE_PATH_REPLACEMENTS) {
-            convertedPath = convertedPath.replace(replacement[0], replacement[1]);
-        }
-        return convertedPath;
-    }
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
