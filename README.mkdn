@@ -53,6 +53,7 @@ Example of updates.txt content:
        "timestamp": "1454716916", 
        "md5sum": "91044e99c90b591cec7f472334fbf1f7", 
        "filename": "nAOSProm-6.0-b05-f01.zip", 
+       "depends": "nAOSProm-6.0-b05",
        "incremental": null, 
        "channel": "stable", 
        "changes": "https://www.dropbox.com/s/.../nAOSProm-6.0-bxx-changelog.txt?dl=1", 
@@ -97,6 +98,7 @@ Example of changelog content:
     Feature N
 
 [XDA Thread](http://forum.xda-developers.com/xperia-s/s-development/rom-naosprom-xperia-s-t2958516) <br>
-Author:
-[mickybart](http://forum.xda-developers.com/member.php?u=6043081)
+Authors:
+[mickybart](http://forum.xda-developers.com/member.php?u=6043081) <br>
+[millosr](http://forum.xda-developers.com/member.php?u=6754437)
 
