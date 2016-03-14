@@ -38,7 +38,7 @@
     <string name="check_twice_daily">Duas vezes ao dia</string>
     <string name="check_daily">Diariamente</string>
     <string name="check_weekly">Semanalmente</string>
-    <string name="check_bi_weekly">Duas vezes na semana</string>
+    <string name="check_bi_weekly">Duas vezes por semana</string>
     <string name="check_monthly">Mensalmente</string>
 
     <!-- Backup -->
@@ -53,7 +53,7 @@
     <string name="checking_for_updates">Verificando atualizações</string>
     <string name="no_updates_found">Nenhuma atualização encontrada</string>
     <string name="update_check_failed">A verificação de atualizações falhou. Verifique a sua conexão e tente novamente.</string>
-    <string name="not_new_updates_found_ticker">Novas atualizações estão disponíveis</string>
+    <string name="not_new_updates_found_ticker">Novas atualizações disponíveis</string>
     <string name="not_new_updates_found_title">Novas atualizações</string>
     <string name="not_action_download">Download</string>
     <string name="data_connection_required">É necessária uma conexão de dados.</string>
@@ -104,11 +104,10 @@
     <!-- changelog strings -->
     <string name="no_changelog_alert">Nenhum changelog disponível</string>
     <string name="changelog_dialog_title">Changelog</string>
-    <string name="loading_changelog">carregando\u2026</string>
+    <string name="loading_changelog">Carregando\u2026</string>
 
     <!-- redirect download to browser -->
     <string name="browser_redirect_dialog_title">Download manual</string>
     <string name="browser_redirect_dialog_message">Devido a problemas técnicos, o arquivo não pode ser baixado diretamente.\n\nO seu browser será aberto para você fazê-lo.\n\nAgradecemos sua compreensão.</string>
 
 </resources>
-
