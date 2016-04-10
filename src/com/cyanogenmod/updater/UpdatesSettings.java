@@ -10,8 +10,10 @@
 package com.cyanogenmod.updater;
 
 import android.app.ActionBar;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -26,6 +28,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.os.Process;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -81,7 +84,8 @@ public class UpdatesSettings extends PreferenceActivity implements
     private static final int MENU_REFRESH = 0;
     private static final int MENU_SYSTEM_INFO = 1;
 
-    private static final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+    private static final int PERMISSIONS_REQUEST_RW_EXT_STORAGE_ON_ACTIVITY_START = 1;
+    private static final int PERMISSIONS_REQUEST_RW_EXT_STORAGE_ON_START_DOWNLOAD = 2;
 
     private SharedPreferences mPrefs;
     private ListPreference mUpdateCheck;
@@ -297,7 +301,9 @@ public class UpdatesSettings extends PreferenceActivity implements
             resetDownloadState();
         }
 
-        updateLayout();
+        if (checkStoragePermissions(PERMISSIONS_REQUEST_RW_EXT_STORAGE_ON_ACTIVITY_START)) {
+            updateLayout();
+        }
 
         IntentFilter filter = new IntentFilter(UpdateCheckService.ACTION_CHECK_FINISHED);
         filter.addAction(DownloadReceiver.ACTION_DOWNLOAD_STARTED);
@@ -335,18 +341,28 @@ public class UpdatesSettings extends PreferenceActivity implements
         mDownloadingPreference = pref;
 
         // But check permissions first - download will be started in the callback
-        int permissionCheck = ContextCompat.checkSelfPermission(pref.getContext(),
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+        if (checkStoragePermissions(PERMISSIONS_REQUEST_RW_EXT_STORAGE_ON_START_DOWNLOAD)) {
             // permission already granted, start the download
             startDownload();
+        }
+    }
+
+    private boolean checkStoragePermissions(int requestCode) {
+        int readPermissionCheck = ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE);
+        int writePermissionCheck = ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (readPermissionCheck == PackageManager.PERMISSION_GRANTED &&
+            writePermissionCheck == PackageManager.PERMISSION_GRANTED) {
+            return true;
         } else {
             // permission not granted, request it from the user
             ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+                    new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                 android.Manifest.permission.READ_EXTERNAL_STORAGE},
+                    requestCode);
+            return false;
         }
-
     }
 
     private Runnable mUpdateProgress = new Runnable() {
@@ -730,12 +746,15 @@ public class UpdatesSettings extends PreferenceActivity implements
     public void onRequestPermissionsResult(int requestCode, String permissions[],
                                            int[] grantResults) {
         switch (requestCode) {
-            case PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
+            case PERMISSIONS_REQUEST_RW_EXT_STORAGE_ON_ACTIVITY_START:
+            case PERMISSIONS_REQUEST_RW_EXT_STORAGE_ON_START_DOWNLOAD: {
                 // if request is cancelled, the result arrays are empty
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay!
-                    startDownload();
+                    // permission was granted, we must restart to apply storage permissions!
+                    AlarmManager alm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+                    alm.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, PendingIntent.getActivity(this, 0, new Intent(this, this.getClass()), 0));
+                    Process.killProcess(Process.myPid());
                 } else {
                     // permission was not granted, cannot download
                     mDownloadingPreference = null;
