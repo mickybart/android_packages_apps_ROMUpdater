@@ -24,7 +24,9 @@
   <string name="no_available_updates_intro">Установлена последняя версия CyanogenMod. Нажмите кнопку «Проверить», чтобы выполнить поиск доступных обновлений.</string>
   <string name="no_available_updates_intro_tv">Установлена последняя версия CyanogenMod. Нажмите кнопку «Сведения о системе», чтобы выполнить поиск доступных обновлений.</string>
   <string name="new_update_summary">Новое</string>
+  <string name="old_update_summary">Предыдущее</string>
   <string name="downloaded_update_summary">Скачано на устройство</string>
+  <string name="lost_downloaded_update_summary">Не поддерживается</string>
   <string name="installed_update_summary">Установлено</string>
   <string name="update_check_title">Проверка обновлений</string>
   <string name="check_manual">Вручную</string>
@@ -34,6 +36,10 @@
   <string name="check_weekly">Еженедельно</string>
   <string name="check_bi_weekly">Раз в две недели</string>
   <string name="check_monthly">Ежемесячно</string>
+  <string name="backup_title">Резервное копирование перед обновлением</string>
+  <string name="backup_summary">Резервное копирование System, Boot and Data</string>
+  <string name="custom_recovery_title">После обновления</string>
+  <string name="custom_recovery_summary">Установить GApps, SuperSU, Xposed, и т.д.</string>
   <string name="checking_for_updates">Проверка обновлений\u2026</string>
   <string name="no_updates_found">Обновлений не найдено</string>
   <string name="update_check_failed">Не удалось выполнить поиск обновлений. Проверьте подключение к Интернету и повторите попытку.</string>
@@ -57,6 +63,9 @@
   <string name="apply_update_dialog_title">Подтверждение обновления</string>
   <string name="apply_update_dialog_text">Будет выполнено обновление до версии «<xliff:g id="filename">%s</xliff:g>».\n\nПри нажатии кнопки «Обновить» устройство перезагрузится в режим восстановления для установки этого обновления. \n\nПримечание: эта функция требует совместимого Recovery. В противном случае обновление будет необходимо установить вручную.</string>
   <string name="apply_unable_to_reboot_toast">Невозможно перезагрузиться в режим восстановления</string>
+  <string name="apply_update_wipe_dialog_text">.\n\nЭто обновление не будет стирать dalvik</string>
+  <string name="apply_update_post_dialog_text">.\n\nTЭто обновление не будет устанавливать приложения после обновления</string>
+  <string name="apply_update_wipe_post_dialog_text">.\n\nЭто обновление не будет стирать dalvik и устанавливать приложения после обновления</string>
   <string name="confirm_delete_dialog_title">Удалить файл</string>
   <string name="confirm_delete_dialog_title_tv">Нажмите, чтобы удалить все загруженные обновления из внутренней памяти</string>
   <string name="confirm_delete_dialog_message">Удалить выбранный файл обновления?</string>
@@ -72,4 +81,6 @@
   <string name="no_changelog_alert">Список изменений недоступен</string>
   <string name="changelog_dialog_title">Список изменений</string>
   <string name="loading_changelog">Загрузка\u2026</string>
+  <string name="browser_redirect_dialog_title">Самостоятельная загрузка</string>
+  <string name="browser_redirect_dialog_message">Из-за ошибки не удается загрузить файл.\n\nПоэтому откроется страница в браузере, где вы самостоятельно можете загрузить обновление.\n\nСпасибо за понимание.</string>
 </resources>
