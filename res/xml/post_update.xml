@@ -37,7 +37,7 @@
             android:key="link_open_gapps"
             android:title="@string/link_open_gapps">
             <intent android:action="android.intent.action.VIEW"
-                    android:data="http://opengapps.org/?arch=arm&amp;api=6.0&amp;variant=mini" />
+                    android:data="http://opengapps.org/?arch=arm&amp;api=7.1&amp;variant=micro" />
         </Preference>
         <Preference
             android:key="link_xposed"
