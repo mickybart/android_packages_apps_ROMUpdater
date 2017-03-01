@@ -72,4 +72,17 @@
   <string name="no_changelog_alert">无可用的更改记录</string>
   <string name="changelog_dialog_title">更改记录</string>
   <string name="loading_changelog">正在加载\u2026</string>
+
+  <!-- Translation for missing strings -->
+  <string name="old_update_summary">旧版本</string>
+  <string name="lost_downloaded_update_summary">不再受支持</string>
+  <string name="backup_title">更新前备份</string>
+  <string name="backup_summary">备份 System, Boot 和 Data 分区</string>
+  <string name="custom_recovery_title">应用更新后</string>
+  <string name="custom_recovery_summary">刷入 GApps, SuperSU, Xposed 等</string>
+  <string name="apply_update_wipe_dialog_text">\n\n本次更新不会擦除 dalvik。</string>
+  <string name="apply_update_post_dialog_text">\n\n本次更新不会运行更新后动作。</string>
+  <string name="apply_update_wipe_post_dialog_text">\n\n本次更新不会擦除 dalvik，也不会运行更新后动作。</string>
+  <string name="browser_redirect_dialog_title">手动下载</string>
+  <string name="browser_redirect_dialog_message">由于技术限制，不能直接下载文件。\n\n将启动浏览器以使您手动下载文件。\n\n感谢您的谅解。</string>
 </resources>
