@@ -14,6 +14,7 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 
 import com.cyanogenmod.updater.R;
 import com.cyanogenmod.updater.UpdateApplication;
@@ -100,7 +101,9 @@ public class DownloadCompleteIntentService extends IntentService {
         Cursor c = mDm.query(query);
         try {
             if (c.moveToFirst()) {
-                return c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_FILENAME));
+                String downloadFileLocalUri = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
+                File file = new File(Uri.parse(downloadFileLocalUri).getPath());
+                return file.getAbsolutePath();
             }
         } finally {
             c.close();
